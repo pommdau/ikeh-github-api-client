@@ -12,36 +12,13 @@ extension GitHubAPIRequest {
     
     struct FetchStarredRepos {
         
-        // MARK: - Property
-        
+        // MARK: - Property        
         var accessToken: String?
-        
         var userName: String
-        var page: Int?
-        var perPage: Int?
         var sort: String? // "created" or "updated"
         var direction: String? // "desc" or "asc"
-        
-//        var path: String
-                
-        // MARK: - LifeCycle
-            
-        init(
-            userName: String,
-            accessToken: String? = nil,
-            page: Int? = nil,
-            perPage: Int? = nil,
-            sort: String? = nil,
-            direction: String? = nil
-        ) {
-            self.accessToken = accessToken
-            self.userName = userName
-            self.page = page
-            self.perPage = perPage
-            self.sort = sort
-            self.direction = direction
-//            self.path = "/users/\(userName)/starred"
-        }
+        var perPage: Int?
+        var page: Int?
     }
 }
 

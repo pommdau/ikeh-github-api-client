@@ -2,6 +2,7 @@ import Foundation
 import HTTPTypes
 
 extension GitHubAPIRequest {
+    /// クエリを含んだURL用の汎用リクエスト
     struct RequestWithURL<T: Decodable> {
         var accessToken: String?
         var rawURL: URL

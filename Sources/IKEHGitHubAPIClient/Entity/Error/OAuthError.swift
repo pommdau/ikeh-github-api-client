@@ -7,22 +7,22 @@
 
 import Foundation
 
-struct OAuthError: Sendable, Codable, Error {
+public struct OAuthError: Sendable, Codable, Error {
     enum CodingKeys: String, CodingKey {
         case error
         case errorDescriptionPrivate = "error_description"
         case errorURI = "error_uri"
     }
-    let error: String
-    let errorDescriptionPrivate: String
-    let errorURI: String?
+    public let error: String
+    public let errorDescriptionPrivate: String
+    public let errorURI: String?
     
     // レスポンスヘッダから取得される値
-    var statusCode: Int?   
+    public var statusCode: Int?
 }
 
 extension OAuthError: LocalizedError {
-    var errorDescription: String? {
+    public var errorDescription: String? {
         return errorDescriptionPrivate
     }
 }

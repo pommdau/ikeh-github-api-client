@@ -5,6 +5,7 @@ import HTTPTypes
 //  refs: https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28
 
 extension GitHubAPIRequest {
+    /// 認証中のユーザ情報の取得
     struct FetchLoginUser {
         var accessToken: String
     }

@@ -9,7 +9,7 @@
 
 import Foundation
 
-struct GitHubAPIError: Codable, Sendable, Error {
+public struct GitHubAPIError: Codable, Sendable, Error {
     
     enum CodingKeys: String, CodingKey {
         case message
@@ -18,7 +18,7 @@ struct GitHubAPIError: Codable, Sendable, Error {
         case documentationPath = "documentation_url"
     }
     
-    struct Error: Codable {
+    public struct Error: Codable, Sendable {
         var resource: String
         var field: String
         var code: String
@@ -26,12 +26,12 @@ struct GitHubAPIError: Codable, Sendable, Error {
     
     // MARK: - Property
     
-    var message: String  // レスポンスのJSONに必ず含まれる
-    var errors: [Error?]?
-    var status: String
-    var documentationPath: String
+    public var message: String  // レスポンスのJSONに必ず含まれる
+    public var errors: [Self.Error?]?
+    public var status: String
+    public var documentationPath: String
     
-    var statusCode: Int? {
+    public var statusCode: Int? {
         guard let statusCode = Int(status) else {
             return nil
         }

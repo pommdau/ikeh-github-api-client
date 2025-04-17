@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum GitHubAPIClientError: Error {
+public enum GitHubAPIClientError: Error {
     
     /// ログインに失敗
     case loginError(String)
@@ -32,6 +32,7 @@ enum GitHubAPIClientError: Error {
     case oauthAPIError(OAuthError)
 }
 
+/// 型判定のためのUtils
 /// 参考: https://qiita.com/kntkymt/items/b73f74c29fd4e399b6b7
 extension GitHubAPIClientError {
     var isLoginError: Bool {
@@ -75,7 +76,7 @@ extension GitHubAPIClientError {
 // MARK: - LocalizedError
 
 extension GitHubAPIClientError: LocalizedError {
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         case .loginError(let message):
             return "ログインに失敗しました: \(message)"

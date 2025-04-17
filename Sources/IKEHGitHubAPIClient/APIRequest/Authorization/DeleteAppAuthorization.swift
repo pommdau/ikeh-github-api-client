@@ -11,9 +11,9 @@ import HTTPTypes
 
 extension GitHubAPIRequest {
     struct DeleteAppAuthorization {
+        var accessToken: String
         var clientID: String
         var clientSecret: String
-        var accessToken: String
     }
 }
 

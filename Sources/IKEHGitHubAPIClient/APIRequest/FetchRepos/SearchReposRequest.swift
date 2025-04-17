@@ -14,8 +14,8 @@ extension GitHubAPIRequest {
         var query: String
         var sort: String?
         var order: String?
-        var page: Int?
         var perPage: Int?
+        var page: Int?
     }
 }
 
@@ -28,7 +28,7 @@ extension GitHubAPIRequest.SearchReposRequest: GitHubAPIRequestProtocol {
     }
     
     var baseURL: URL? {
-        URL(string: "https://api.github.com")
+        GitHubAPIEndpoints.apiBaseURL
     }
     
     var path: String {

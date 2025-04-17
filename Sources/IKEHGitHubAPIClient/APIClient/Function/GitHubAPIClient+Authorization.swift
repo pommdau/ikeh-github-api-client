@@ -34,8 +34,8 @@ extension GitHubAPIClient {
 #endif
     }
     
-    /// コールバックURLの処理
-    public func handleLoginCallBackURLAndFetchAccessToken(_ url: URL) async throws -> String {
+    /// 認証後のコールバックURLからアクセストークンの取得を行う
+    public func recieveLoginCallBackURLAndFetchAccessToken(_ url: URL) async throws -> String {
         let sessionCode = try await extractSessionCodeFromCallbackURL(url)
         return try await fetchInitialToken(sessionCode: sessionCode)
     }
@@ -78,9 +78,9 @@ extension GitHubAPIClient {
     /// ログアウト(サーバ上の認証情報の削除)
     public func logout(accessToken: String) async throws {
         let request = GitHubAPIRequest.DeleteAppAuthorization(
+            accessToken: accessToken,
             clientID: clientID,
             clientSecret: clientSecret,
-            accessToken: accessToken
         )
         _ = try await self.performRequest(with: request)
     }

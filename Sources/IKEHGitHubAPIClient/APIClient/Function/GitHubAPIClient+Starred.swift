@@ -14,24 +14,28 @@ extension GitHubAPIClient {
     public func fetchStarredRepos(
         userName: String,
         accessToken: String? = nil,
-        page: Int? = nil,
-        perPage: Int? = nil,
         sort: String? = nil,
-        direction: String? = nil
+        direction: String? = nil,
+        perPage: Int? = nil,
+        page: Int? = nil,
     ) async throws -> StarredReposResponse {
         let request = GitHubAPIRequest.FetchStarredRepos(
-            userName: userName,
             accessToken: accessToken,
-            page: page,
-            perPage: perPage,
+            userName: userName,
             sort: sort,
-            direction: direction
+            direction: direction,
+            perPage: perPage,
+            page: page,
         )
         let response = try await performRequest(with: request)
         return response
     }
     
-    public func checkIsRepoStarred(accessToken: String, ownerName: String, repoName: String) async throws -> Bool {
+    public func checkIsRepoStarred(
+        accessToken: String,
+        ownerName: String,
+        repoName: String
+    ) async throws -> Bool {
 //        try await Task.sleep(nanoseconds: 10_000_000_000) // 10s待機
         let request = GitHubAPIRequest.CheckIsRepoStarredRequest(
             accessToken: accessToken,
