@@ -32,6 +32,46 @@ enum GitHubAPIClientError: Error {
     case oauthAPIError(OAuthError)
 }
 
+/// 参考: https://qiita.com/kntkymt/items/b73f74c29fd4e399b6b7
+extension GitHubAPIClientError {
+    var isLoginError: Bool {
+        if case .loginError = self {
+            return true
+        }
+        return false
+    }
+    var isTokenError: Bool {
+        if case .tokenError = self {
+            return true
+        }
+        return false
+    }
+    var isConnectionError: Bool {
+        if case .connectionError = self {
+            return true
+        }
+        return false
+    }
+    var isResponseParseError: Bool {
+        if case .responseParseError = self {
+            return true
+        }
+        return false
+    }
+    var isAPIError: Bool {
+        if case .apiError = self {
+            return true
+        }
+        return false
+    }
+    var isOauthAPIError: Bool {
+        if case .oauthAPIError = self {
+            return true
+        }
+        return false
+    }
+}
+
 // MARK: - LocalizedError
 
 extension GitHubAPIClientError: LocalizedError {
@@ -48,9 +88,9 @@ extension GitHubAPIClientError: LocalizedError {
         case .responseParseError:
             return "データの取得に失敗しました"
         case .apiError(let gitHubAPIError):
-            return "APIでエラーが発生しました: \(gitHubAPIError.errorDescription)"
+            return "APIでエラーが発生しました: \(gitHubAPIError.localizedDescription)"
         case .oauthAPIError(let oAuthError):
-            return "APIでエラーが発生しました: \(oAuthError.errorDescription)"
+            return "APIでエラーが発生しました: \(oAuthError.localizedDescription)"
         }
     }
 }

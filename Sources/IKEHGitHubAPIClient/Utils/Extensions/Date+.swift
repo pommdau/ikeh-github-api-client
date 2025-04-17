@@ -17,31 +17,31 @@ extension Date {
         return now.addingTimeInterval(-randomOffset)
     }
     
-    /// 指定された有効期限（秒）を元に期限切れの日時を計算する
-    func addingExpirationInterval(_ expiresIn: Int) -> Date {
-        return self.addingTimeInterval(TimeInterval(expiresIn))
-    }
+//    /// 指定された有効期限（秒）を元に期限切れの日時を計算する
+//    func addingExpirationInterval(_ expiresIn: Int) -> Date {
+//        return self.addingTimeInterval(TimeInterval(expiresIn))
+//    }
     
-    /// e.g.
-    /// "on Nov 16, 2024"
-    /// "in 11 months"
-    /// "2 days ago"
-    @MainActor
-    func convertToRelativeDateText() -> String {
-        let now = Date()
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: self, to: now)
-        guard let days = components.day else {
-            return "" // 通常通らない
-        }
-        if days > 30 {
-            // 30日より前
-            return "on \(DateFormatter.shortYearMonthDate.string(from: self))"
-        } else {
-            // 30日以内
-            return "\(RelativeDateTimeFormatter.shared.localizedString(for: self, relativeTo: .now) )"
-        }
-    }
+//    /// e.g.
+//    /// "on Nov 16, 2024"
+//    /// "in 11 months"
+//    /// "2 days ago"
+//    @MainActor
+//    func convertToRelativeDateText() -> String {
+//        let now = Date()
+//        let calendar = Calendar.current
+//        let components = calendar.dateComponents([.day], from: self, to: now)
+//        guard let days = components.day else {
+//            return "" // 通常通らない
+//        }
+//        if days > 30 {
+//            // 30日より前
+//            return "on \(DateFormatter.shortYearMonthDate.string(from: self))"
+//        } else {
+//            // 30日以内
+//            return "\(RelativeDateTimeFormatter.shared.localizedString(for: self, relativeTo: .now) )"
+//        }
+//    }
 }
 
 // MARK: - Debug

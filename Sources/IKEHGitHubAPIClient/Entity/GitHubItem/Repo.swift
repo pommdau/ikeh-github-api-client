@@ -322,4 +322,3 @@ extension Repo.Mock {
    -H "X-GitHub-Api-Version: 2022-11-28" \
    "https://api.github.com/search/repositories?q=swift&per_page=1"
  */
-

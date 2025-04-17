@@ -41,7 +41,7 @@ extension GitHubAPIClient {
     }
     
     /// コールバックURLからログインセッションID(初回認証時にのみ利用する一時的なcode)を取得
-    private func extractSessionCodeFromCallbackURL(_ url: URL) async throws -> String {
+    func extractSessionCodeFromCallbackURL(_ url: URL) async throws -> String {
         guard
             let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
             let queryItems = components.queryItems,

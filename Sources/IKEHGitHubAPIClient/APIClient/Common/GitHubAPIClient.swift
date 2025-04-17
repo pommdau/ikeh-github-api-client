@@ -1,5 +1,6 @@
 import Foundation
 
+/// GitHubAPIのクライアント
 public final actor GitHubAPIClient {
     
     // MARK: - Property

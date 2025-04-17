@@ -40,7 +40,7 @@ struct GitHubAPIError: Codable, Sendable, Error {
 }
 
 extension GitHubAPIError: LocalizedError {
-    var errorDescription: String {
+    public var errorDescription: String? {
         return message
     }
 }
