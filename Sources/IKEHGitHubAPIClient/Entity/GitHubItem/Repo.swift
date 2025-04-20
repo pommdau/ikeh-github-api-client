@@ -63,6 +63,7 @@ public struct Repo: GitHubItem {
 // MARK: Identifiable
 
 extension Repo {
+    /// 固有型のID
     public var id: SwiftID<Self> { "\(rawID)" }
 }
 
@@ -102,7 +103,6 @@ extension Repo {
 
 extension Repo {
 
-//    @MainActor
     public enum Mock {
         
         public static func random(count: Int) -> [Repo] {
