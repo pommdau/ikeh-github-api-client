@@ -12,7 +12,7 @@ public struct SearchResponse<Item>: Sendable, Codable, PagingResponse where Item
     public let totalCount: Int
     public let items: [Item]
     
-    // MARK: - レスポンスのHeaderから所得される情報
+    // MARK: - PagingResponse
     
     public var relationLink: RelationLink? // ページング情報
 }

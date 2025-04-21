@@ -9,7 +9,7 @@ import Foundation
 
 public struct LoginUser: GitHubItem {
 
-    // MARK: - Decode Result
+    // MARK: - 検索結果から取得される値
     
     enum CodingKeys: String, CodingKey {
         case rawID = "id"
@@ -47,19 +47,19 @@ public struct LoginUser: GitHubItem {
     public var createdAt: String
     public var updatedAt: String
     
+    // MARK: - Identifiable
+    
+    /// 固有型のID
+    public var id: SwiftID<Self> { "\(rawID)" }
+    
+    // MARK: - Computed Property
+    
     public var twitterURL: URL? {
         guard let twitterUsername else {
             return nil
         }
         return URL(string: "https://x.com/\(twitterUsername)")
     }
-}
-
-// MARK: - Identifiable
-
-extension LoginUser {
-    /// 固有型のID
-    public var id: SwiftID<Self> { "\(rawID)" }
 }
 
 // MARK: - Mock

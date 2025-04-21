@@ -3,7 +3,7 @@ import Foundation
 /// リポジトリのデータモデル。アーキテクチャのRepositoryと区別するためRepoの名称を使う
 public struct Repo: GitHubItem {
     
-    // MARK: - Decode Result
+    // MARK: - 検索結果から取得される値
     
     private enum CodingKeys: String, CodingKey {
         case rawID = "id"
@@ -22,7 +22,6 @@ public struct Repo: GitHubItem {
         case updatedAt = "updated_at"
     }
     
-    // searchReposで取得される情報
     public let rawID: Int
     public var name: String  // e.g. "Tetris"
     public var fullName: String  // e.g. "dtrupenn/Tetris"
@@ -41,11 +40,18 @@ public struct Repo: GitHubItem {
     // MARK: その他の補完されて取得される情報
     
     // 詳細情報
-    public var subscribersCount: Int?
+    public var subscribersCount: Int? // unused now
         
     // スター情報
     public var starredAt: String? // e.g. "2024-12-17T01:54:20Z"
     public var isStarred: Bool = false
+    
+    // MARK: - Identifiable
+    
+    /// 固有型のID
+    public var id: SwiftID<Self> { "\(rawID)" }
+    
+    // MARK: - Computed Property
     
     public var htmlURL: URL? {
         URL(string: htmlPath)
@@ -57,14 +63,6 @@ public struct Repo: GitHubItem {
         }
         return URL(string: websitePath)
     }
-    
-}
-
-// MARK: Identifiable
-
-extension Repo {
-    /// 固有型のID
-    public var id: SwiftID<Self> { "\(rawID)" }
 }
 
 // MARK: - Update

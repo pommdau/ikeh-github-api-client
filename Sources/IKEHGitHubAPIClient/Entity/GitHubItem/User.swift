@@ -10,7 +10,7 @@ import Foundation
 
 public struct User: GitHubItem {
     
-    // MARK: - Decode Result
+    // MARK: - 検索結果から取得される値
     
     private enum CodingKeys: String, CodingKey {
         case rawID = "id"
@@ -25,7 +25,7 @@ public struct User: GitHubItem {
         case followers
         case following
     }
-    
+
     public let rawID: Int
     public var login: String // e.g. "pommdau"
     public var name: String // e.g. "IKEH"
@@ -38,8 +38,15 @@ public struct User: GitHubItem {
     public var followers: Int
     public var following: Int
            
+    // MARK: - Identifiable
+    
+    /// 固有型のID
+    public var id: SwiftID<Self> { "\(rawID)" }
+    
+    // MARK: - Computed Property
+    
     public var avatarImageURL: URL? {
-        return URL(string: avatarImagePath)
+        URL(string: avatarImagePath)
     }
     
     public var htmlURL: URL? {
@@ -49,19 +56,12 @@ public struct User: GitHubItem {
         return URL(string: htmlPath)
     }
     
-    var twitterURL: URL? {
+    public var twitterURL: URL? {
         guard let twitterUsername else {
             return nil
         }
         return URL(string: "https://x.com/\(twitterUsername)")
     }
-}
-
-// MARK: - Identifiable
-
-extension User {
-    /// 固有型のID
-    public var id: SwiftID<Self> { "\(rawID)" }
 }
 
 // MARK: - Mock

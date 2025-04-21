@@ -7,9 +7,9 @@
 
 import Foundation
 
-/// URLQueryItemの配列において次のようにアクセスできるようにする
+/// [URLQueryItem]で次のようにアクセスできるようにする
 /// e.g. nextLink.queryItems["page"]
-extension Array where Element == URLQueryItem {
+extension [URLQueryItem] {
     subscript(_ key: String) -> String? {
         first(where: { $0.name == key })?.value
     }

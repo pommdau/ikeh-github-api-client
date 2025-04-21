@@ -51,7 +51,7 @@ extension GitHubAPIError: LocalizedError {
 
 extension GitHubAPIError {
     enum Mock {
-        static var badCredentials: GitHubAPIError {
+        public static var badCredentials: GitHubAPIError {
             .init(
                 message: "Bad credentials",
                 errors: nil,
@@ -60,7 +60,7 @@ extension GitHubAPIError {
             )
         }
         
-        static var notFound: GitHubAPIError {
+        public static var notFound: GitHubAPIError {
             .init(
                 message: "Not Found",
                 errors: nil,
@@ -69,7 +69,7 @@ extension GitHubAPIError {
             )
         }
         
-        static var validationFailed: GitHubAPIError {
+        public static var validationFailed: GitHubAPIError {
             .init(
                 message: "Validation Failed",
                 errors: [

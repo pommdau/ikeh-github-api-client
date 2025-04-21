@@ -11,7 +11,8 @@ public struct StarredReposResponse: Sendable, PagingResponse {
     
     public var repos: [Repo]
     
-    // MARK: - レスポンスのHeaderから所得される情報
+    // MARK: PagingResponse
+    
     public var relationLink: RelationLink? // ページング情報
 }
 
@@ -45,9 +46,21 @@ extension StarredReposResponse: Decodable {
     }
 }
 
-// MARK: - Debug
+// MARK: - Mock
 
-private let json = #"""
+extension StarredReposResponse {
+    public enum Mock {
+        public static func random(count: Int) -> StarredReposResponse {
+            return .init(repos: Repo.Mock.random(count: count))
+        }
+    }
+}
+
+// MARK: - JSONString
+
+extension StarredReposResponse.Mock {
+    enum JSONString {
+        static let sample = #"""
 [
   {
     "starred_at" : "2024-12-17T01:54:20Z",
@@ -166,3 +179,5 @@ private let json = #"""
   }
 ]
 """#
+    }
+}
