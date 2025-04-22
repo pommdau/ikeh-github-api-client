@@ -10,6 +10,6 @@ import Foundation
 /// レスポンスのbodyが空のレスポンス
 struct NoBodyResponse: Sendable {}
 
-extension NoBodyResponse: Decodable {
+extension NoBodyResponse: Codable {
     init(from decoder: Decoder) throws {}
 }

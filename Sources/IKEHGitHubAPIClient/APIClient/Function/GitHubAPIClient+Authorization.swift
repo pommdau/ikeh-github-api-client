@@ -60,7 +60,7 @@ extension GitHubAPIClient {
     }
         
     /// 初回ログイン時のトークン取得
-    private func fetchInitialToken(sessionCode: String) async throws -> String {
+    func fetchInitialToken(sessionCode: String) async throws -> String {
         let request = GitHubAPIRequest.FetchInitialToken(
             clientID: clientID,
             clientSecret: clientSecret,
