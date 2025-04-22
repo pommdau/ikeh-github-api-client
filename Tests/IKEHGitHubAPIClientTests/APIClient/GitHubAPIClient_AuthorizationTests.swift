@@ -59,6 +59,7 @@ extension GitHubAPIClient_AuthorizationTests {
         let testURLWithoutCode = try XCTUnwrap(URL(string: "ikehgithubapi://callback?state=\(testLastLoginStateID)"))
         do {
             _ = try await sut.extractSessionCodeFromCallbackURL(testURLWithoutCode)
+            XCTFail("期待するエラーが検出されませんでした")
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
@@ -72,6 +73,7 @@ extension GitHubAPIClient_AuthorizationTests {
         let testURLWithoutState = try XCTUnwrap(URL(string: "ikehgithubapi://callback?code=\(testSessionCode)"))
         do {
             _ = try await sut.extractSessionCodeFromCallbackURL(testURLWithoutState)
+            XCTFail("期待するエラーが検出されませんでした")
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
@@ -95,6 +97,7 @@ extension GitHubAPIClient_AuthorizationTests {
         let testURLWithoutCode = try XCTUnwrap(URL(string: "ikehgithubapi://callback?code=xxx&state=\(invalidLastLoginStateID)"))
         do {
             _ = try await sut.extractSessionCodeFromCallbackURL(testURLWithoutCode)
+            XCTFail("期待するエラーが検出されませんでした")
         } catch {
 
             // MARK: Then
@@ -103,9 +106,7 @@ extension GitHubAPIClient_AuthorizationTests {
                 return
             }
             XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error.localizedDescription)")
-            return
         }
-        XCTFail("期待するエラーが検出されませんでした")
     }
 }
 

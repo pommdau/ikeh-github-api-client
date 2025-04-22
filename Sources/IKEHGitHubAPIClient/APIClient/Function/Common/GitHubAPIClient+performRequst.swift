@@ -26,7 +26,7 @@ extension GitHubAPIClient {
 extension GitHubAPIClient {
     
     /// リクエストの送信
-    private func sendRequest<Request: GitHubAPIRequestProtocol>(with request: Request) async throws -> (Data, HTTPResponse) {
+    func sendRequest<Request: GitHubAPIRequestProtocol>(with request: Request) async throws -> (Data, HTTPResponse) {
         // リクエストの作成
         guard let httpRequest = request.buildHTTPRequest() else {
             throw GitHubAPIClientError.invalidRequest
