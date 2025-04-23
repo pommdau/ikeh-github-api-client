@@ -9,7 +9,7 @@ public final actor GitHubAPIClient {
     let clientSecret: String
     let callbackURL: URL
     let scope: String?
-    let urlSession: URLSessionProtocol
+    let urlSession: URLSessionProtocol // TODO: Package外からは非公開にして、URLSessionを渡したい
     
     private(set) var lastLoginStateID: String = "" // 最後のログインセッションID
         

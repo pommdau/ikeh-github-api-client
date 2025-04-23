@@ -30,6 +30,8 @@ final class GitHubAPIClient_PerformRequestTests: XCTestCase {
     }
 }
 
+// MARK: - リクエスト送信機能のテスト
+
 extension GitHubAPIClient_PerformRequestTests {
     
     func testSendRequestSuccess() async throws {
@@ -76,3 +78,153 @@ extension GitHubAPIClient_PerformRequestTests {
         }
     }
 }
+
+// MARK: - Test レスポンスの成否判定機能のテスト
+
+extension GitHubAPIClient_PerformRequestTests {
+        
+    /// checkResponse: 成功
+    func testCheckResponseDefaultSuccess() async throws {
+        // MARK: Given
+        // MARK: When
+        try GitHubAPIClient.checkResponseDefault(data: Data(), httpResponse: .init(status: .ok))
+        
+        // MARK: Then
+        // エラーが投げられていなければOK
+    }
+    
+    /// checkResponseDefault: 失敗(不正なステータスコード)
+    func testCheckResponseDefaultFailedByInvalidStatusCode() async throws {
+        // MARK: Given
+        let testResponse: GitHubAPIError = .Mock.badCredentials
+    
+        // MARK: When
+        do {
+            try GitHubAPIClient.checkResponseDefault(
+                data: try JSONEncoder().encode(testResponse),
+                httpResponse: .init(status: .init(code: try XCTUnwrap(testResponse.statusCode)))
+            )
+            XCTFail("期待するエラーが検出されませんでした")
+        } catch {
+            // MARK: Then
+            guard let clientError = error as? GitHubAPIClientError else {
+                XCTFail("unexpected error: \(error.localizedDescription)")
+                return
+            }
+            XCTAssertTrue(clientError.isAPIError, "unexpected error: \(error)")
+        }
+    }
+    
+    /// checkResponseForOAuth: 成功
+    func testCheckResponseForOAuthSuccess() async throws {
+        // MARK: Given
+        // MARK: When
+        try GitHubAPIClient.checkResponseDefault(data: Data(), httpResponse: .init(status: .ok))
+        
+        // MARK: Then
+        // エラーが投げられていなければOK
+    }
+    
+    /// checkResponseForOAuth: 失敗(レスポンスがエラー形式)
+    func testCheckResponseForOAuthFailedByErrorResponse() async throws {
+        // MARK: Given
+        let testResponse: OAuthError = .Mock.incorrectClientCredentials
+    
+        // MARK: When
+        do {
+            try GitHubAPIClient.checkResponseForOAuth(
+                data: try JSONEncoder().encode(testResponse),
+                httpResponse: .init(status: .init(code: try XCTUnwrap(testResponse.statusCode)))
+            )
+            XCTFail("期待するエラーが検出されませんでした")
+        } catch {
+            // MARK: Then
+            guard let clientError = error as? GitHubAPIClientError else {
+                XCTFail("unexpected error: \(error.localizedDescription)")
+                return
+            }
+            XCTAssertTrue(clientError.isOauthAPIError, "unexpected error: \(error)")
+        }
+    }
+}
+
+// MARK: - Test レスポンスのデコード機能のテスト
+
+extension GitHubAPIClient_PerformRequestTests {
+        
+    /// attachPagingIfNeeded: 成功
+    func testAttachPagingIfNeededSuccess() async throws {
+        // MARK: Given
+        
+        // テスト用のレスポンスBodyの作成
+        let testRepos: [Repo] = Repo.Mock.random(count: 10)
+        let testResponse: GitHubAPIRequest.FetchStarredRepos.Response = .init(repos: testRepos)
+        
+        // テスト用のレスポンスHeaderの作成
+        var testHeaderFields = HTTPFields()
+        testHeaderFields.append(
+            HTTPField(
+                name: HTTPField.Name("Link")!,
+                value: RelationLink.Mock.RawString.fetchStarredReposResponse
+            )
+        )
+        let testHTTPResponse: HTTPResponse = .init(
+            status: .ok,
+            headerFields: testHeaderFields
+        )
+        XCTAssertNil(testResponse.relationLink)
+
+        // MARK: When
+        
+        let responseWithPaging = try GitHubAPIClient.attachPagingIfNeeded(
+            to: testResponse,
+            from: testHTTPResponse
+        )
+        
+        // MARK: Then
+        XCTAssertNotNil(responseWithPaging.relationLink)
+    }
+    
+    /// attachPagingIfNeeded: 失敗(リンクの情報がない)
+    func testAttachPagingIfNeededFailedByNotExistLinkInfo() async throws {
+        // MARK: Given
+        
+        let testRepos: [Repo] = Repo.Mock.random(count: 10)
+        let testResponse: GitHubAPIRequest.FetchStarredRepos.Response = .init(repos: testRepos)
+        let testHTTPResponse: HTTPResponse = .init(
+            status: .ok,
+            headerFields: .init()
+        )
+
+        // MARK: When
+        
+        let responseWithPaging = try GitHubAPIClient.attachPagingIfNeeded(
+            to: testResponse,
+            from: testHTTPResponse
+        )
+        
+        // MARK: Then
+        // エラーが発生していない、かつページ情報が空の確認
+        XCTAssertNil(responseWithPaging.relationLink)
+    }
+    
+    // TODO 分ける
+    
+    
+    func testDecodeResponseSuccess() async throws {
+        // MARK: Given
+        let testResponse: GitHubAPIRequest.FetchRepo.Response = Repo.Mock.random()
+        let testData = try JSONEncoder().encode(testResponse)
+
+        // MARK: When
+        let response: GitHubAPIRequest.FetchRepo.Response = try GitHubAPIClient.decodeResponse(
+            data: testData,
+            httpResponse: .init(status: .ok)
+        )
+        
+        // MARK: Then
+        XCTAssertEqual(response, testResponse)
+    }
+    
+}
+

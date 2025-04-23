@@ -15,8 +15,8 @@ extension GitHubAPIClient {
     @discardableResult
     func performRequest<Request>(with request: Request) async throws -> Request.Response where Request: GitHubAPIRequestProtocol {
         let (data, httpResponse) = try await sendRequest(with: request)
-        try checkResponse(request: request, data: data, httpResponse: httpResponse)
-        let response: Request.Response = try decodeResponse(data: data, httpResponse: httpResponse)
+        try Self.checkResponse(request: request, data: data, httpResponse: httpResponse)
+        let response: Request.Response = try Self.decodeResponse(data: data, httpResponse: httpResponse)
         return response
     }
 }
@@ -54,21 +54,21 @@ extension GitHubAPIClient {
 
 extension GitHubAPIClient {
                     
-    private func checkResponse(
+    private static func checkResponse(
         request: any GitHubAPIRequestProtocol,
         data: Data,
         httpResponse: HTTPResponse
     ) throws {
         switch request.responseFailType {
         case .statusCode:
-            try checkResponseDefault(data: data, httpResponse: httpResponse)
+            try Self.checkResponseDefault(data: data, httpResponse: httpResponse)
         case .responseBody:
-            try checkResponseForOAuth(data: data, httpResponse: httpResponse)
+            try Self.checkResponseForOAuth(data: data, httpResponse: httpResponse)
         }
     }
     
     /// レスポンスのステータスコードで成否を判定
-    private func checkResponseDefault(data: Data, httpResponse: HTTPResponse) throws {
+    static func checkResponseDefault(data: Data, httpResponse: HTTPResponse) throws {
         // 200番台であれば成功
         if (200..<300).contains(httpResponse.status.code) {
             return
@@ -79,7 +79,7 @@ extension GitHubAPIClient {
             errorResponse = try JSONDecoder().decode(GitHubAPIError.self, from: data)
         } catch {
             // 未対応のエラーレスポンス、もしくはデータが空
-//            print(String(data: data, encoding: .utf8)!)
+            print(String(data: data, encoding: .utf8)!)
             throw GitHubAPIClientError.responseParseError(error)
         }
 //        errorResponse.statusCode = httpResponse.status.code
@@ -87,7 +87,7 @@ extension GitHubAPIClient {
     }
     
     /// レスポンスbodyの形式がエラーの形式かどうかで成否を判定(OAuthのリクエスト用)
-    private func checkResponseForOAuth(data: Data, httpResponse: HTTPResponse) throws {
+    static func checkResponseForOAuth(data: Data, httpResponse: HTTPResponse) throws {
         /**
          OAuthの仕様で失敗時にも200番が返ってくる
          /そのためレスポンスがエラーの形式かどうかで確認する
@@ -109,7 +109,7 @@ extension GitHubAPIClient {
 extension GitHubAPIClient {
     
     /// ページング情報に対応したResponseに対して、応答レスポンスにページング情報を含んでいればそれを付与する
-    private static func attachPagingIfNeeded<Response>(to response: Response, from httpResponse: HTTPResponse) throws -> Response {
+    static func attachPagingIfNeeded<Response>(to response: Response, from httpResponse: HTTPResponse) throws -> Response {
         if var responseWithRelationLink = response as? PagingResponse,
            let link = httpResponse.headerFields.first(where: { $0.name.rawName == "Link" }) {
             // Responseページング情報を付与
@@ -126,7 +126,7 @@ extension GitHubAPIClient {
     }
     
     /// レスポンスをデータモデルにデコード
-    private func decodeResponse<Response: Decodable>(data: Data, httpResponse: HTTPResponse) throws -> Response {
+    static func decodeResponse<Response: Decodable>(data: Data, httpResponse: HTTPResponse) throws -> Response {
         var response: Response
         do {
             if Response.self == NoBodyResponse.self {

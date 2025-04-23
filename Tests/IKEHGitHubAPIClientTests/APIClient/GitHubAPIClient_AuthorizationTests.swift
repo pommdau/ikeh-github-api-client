@@ -63,10 +63,10 @@ extension GitHubAPIClient_AuthorizationTests {
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error.localizedDescription)")
+                XCTFail("unexpected error: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error.localizedDescription)")
+            XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error)")
         }
         
         // MARK: When コールバックURLのstateが不足している場合
@@ -77,10 +77,10 @@ extension GitHubAPIClient_AuthorizationTests {
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error.localizedDescription)")
+                XCTFail("unexpected error: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error.localizedDescription)")
+            XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error)")
         }
     }
     
@@ -102,10 +102,10 @@ extension GitHubAPIClient_AuthorizationTests {
 
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error.localizedDescription)")
+                XCTFail("unexpected error: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error.localizedDescription)")
+            XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error)")
         }
     }
 }
@@ -151,10 +151,10 @@ extension GitHubAPIClientTests {
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error.localizedDescription)")
+                XCTFail("unexpected error: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isOauthAPIError, "unexpected error: \(error.localizedDescription)")
+            XCTAssertTrue(clientError.isOauthAPIError, "unexpected error: \(error)")
             return
         }
         XCTFail("期待するエラーが検出されませんでした")
@@ -199,10 +199,10 @@ extension GitHubAPIClientTests {
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error.localizedDescription)")
+                XCTFail("unexpected error: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isAPIError, "unexpected error: \(error.localizedDescription)")
+            XCTAssertTrue(clientError.isAPIError, "unexpected error: \(error)")
             return
         }
         XCTFail("期待するエラーが検出されませんでした")
