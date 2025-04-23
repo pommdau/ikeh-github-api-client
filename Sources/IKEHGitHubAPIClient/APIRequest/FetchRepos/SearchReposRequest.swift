@@ -9,6 +9,8 @@ import Foundation
 import HTTPTypes
 
 extension GitHubAPIRequest {
+    /// リポジトリの検索リクエスト
+    /// - SeeAlso: [GitHub Docs](https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-repositories)
     struct SearchReposRequest {
         var accessToken: String?
         var query: String
