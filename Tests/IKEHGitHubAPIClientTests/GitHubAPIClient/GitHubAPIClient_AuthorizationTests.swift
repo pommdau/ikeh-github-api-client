@@ -1,6 +1,7 @@
 import XCTest
 @testable import IKEHGitHubAPIClient
 
+/// GitHubAPIClientの認証機能のテスト
 final class GitHubAPIClient_AuthorizationTests: XCTestCase {
     
     // MARK: - Property
@@ -40,8 +41,8 @@ extension GitHubAPIClient_AuthorizationTests {
         
         // MARK: Then
         XCTAssertEqual(
-            testSessionCode,
-            sessionCode
+            sessionCode,
+            testSessionCode
         )
     }
     
@@ -63,10 +64,10 @@ extension GitHubAPIClient_AuthorizationTests {
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error)")
+                XCTFail("期待するエラーが検出されませんでした: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error)")
+            XCTAssertTrue(clientError.isLoginError, "期待するエラーが検出されませんでした: \(error)")
         }
         
         // MARK: When コールバックURLのstateが不足している場合
@@ -77,10 +78,10 @@ extension GitHubAPIClient_AuthorizationTests {
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error)")
+                XCTFail("期待するエラーが検出されませんでした: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error)")
+            XCTAssertTrue(clientError.isLoginError, "期待するエラーが検出されませんでした: \(error)")
         }
     }
     
@@ -102,19 +103,19 @@ extension GitHubAPIClient_AuthorizationTests {
 
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error)")
+                XCTFail("期待するエラーが検出されませんでした: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isLoginError, "unexpected error: \(error)")
+            XCTAssertTrue(clientError.isLoginError, "期待するエラーが検出されませんでした: \(error)")
         }
     }
 }
 
-// MARK: - 初回トークン取得のテスト
+// MARK: - トークン取得のテスト
 
-extension GitHubAPIClientTests {
+extension GitHubAPIClient_AuthorizationTests {
     
-    /// 初回トークン取得: 成功
+    /// トークン取得: 成功
     @MainActor
     func testFetchInitialTokenSuccess() async throws {
         // MARK: Given
@@ -133,7 +134,7 @@ extension GitHubAPIClientTests {
         )
     }
 
-    /// 初回トークン取得: 失敗(OAuthError)
+    /// トークン取得: 失敗(OAuthError)
     func testFetchInitialTokenFailedByOAuthError() async throws {
         // MARK: Given
         let testResponse: OAuthError = .Mock.incorrectClientCredentials
@@ -151,10 +152,10 @@ extension GitHubAPIClientTests {
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error)")
+                XCTFail("期待するエラーが検出されませんでした: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isOauthAPIError, "unexpected error: \(error)")
+            XCTAssertTrue(clientError.isOauthAPIError, "期待するエラーが検出されませんでした: \(error)")
             return
         }
         XCTFail("期待するエラーが検出されませんでした")
@@ -164,7 +165,7 @@ extension GitHubAPIClientTests {
 
 // MARK: - ログアウト
 
-extension GitHubAPIClientTests {
+extension GitHubAPIClient_AuthorizationTests {
     
     /// ログアウト: 成功
     func testLogoutSuccess() async throws {
@@ -199,10 +200,10 @@ extension GitHubAPIClientTests {
         } catch {
             // MARK: Then
             guard let clientError = error as? GitHubAPIClientError else {
-                XCTFail("unexpected error: \(error)")
+                XCTFail("期待するエラーが検出されませんでした: \(error)")
                 return
             }
-            XCTAssertTrue(clientError.isAPIError, "unexpected error: \(error)")
+            XCTAssertTrue(clientError.isAPIError, "期待するエラーが検出されませんでした: \(error)")
             return
         }
         XCTFail("期待するエラーが検出されませんでした")
