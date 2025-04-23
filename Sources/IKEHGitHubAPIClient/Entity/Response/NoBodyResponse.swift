@@ -8,7 +8,7 @@
 import Foundation
 
 /// レスポンスのbodyが空のレスポンス
-struct NoBodyResponse: Sendable {}
+struct NoBodyResponse: Sendable, Equatable {}
 
 extension NoBodyResponse: Codable {
     init(from decoder: Decoder) throws {}

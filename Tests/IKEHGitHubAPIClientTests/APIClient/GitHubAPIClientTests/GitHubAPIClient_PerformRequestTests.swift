@@ -30,6 +30,54 @@ final class GitHubAPIClient_PerformRequestTests: XCTestCase {
     }
 }
 
+extension GitHubAPIClient_PerformRequestTests {
+    func testPerformRequestSuccess() async throws {
+        // MARK: Given
+        // 汎用関数のテスト用にレポジトリ取得のリクエストを利用している(任意のもので良い)
+        let testRequest: GitHubAPIRequest.FetchRepo = .init(owner: "owner", repo: "repo")
+        let testResponse: GitHubAPIRequest.FetchRepo.Response = Repo.Mock.random()
+        let testData = try JSONEncoder().encode(testResponse)
+        let urlSessionStub: URLSessionStub = .init(
+            data: testData,
+            response: .init(status: .ok)
+        )
+        sut = try .create(urlSession: urlSessionStub)
+
+        // MARK: When
+        let repo = try await sut.performRequest(with: testRequest)
+        
+        // MARK: Then
+        XCTAssertEqual(repo, testResponse)
+    }
+    
+    func testPerformRequestFailedByAPIError() async throws {
+        // MARK: Given
+        // 汎用関数のテスト用にレポジトリ取得のリクエストを利用している(任意のもので良い)
+        let testRequest: GitHubAPIRequest.FetchRepo = .init(owner: "owner", repo: "repo")
+        let testResponse: GitHubAPIError = .Mock.badCredentials
+        let testData = try JSONEncoder().encode(testResponse)
+
+        let urlSessionStub: URLSessionStub = .init(
+            data: testData,
+            response: .init(status: .init(code: try XCTUnwrap(testResponse.statusCode)))
+        )
+        sut = try .create(urlSession: urlSessionStub)
+
+        // MARK: When
+        do {
+            let _ = try await sut.performRequest(with: testRequest)
+            XCTFail("期待するエラーが検出されませんでした")
+        } catch {
+            // MARK: Then
+            guard let clientError = error as? GitHubAPIClientError else {
+                XCTFail("unexpected error: \(error.localizedDescription)")
+                return
+            }
+            XCTAssertTrue(clientError.isAPIError, "unexpected error: \(error.localizedDescription)")
+        }
+    }
+}
+
 // MARK: - リクエスト送信機能のテスト
 
 extension GitHubAPIClient_PerformRequestTests {
@@ -224,6 +272,43 @@ extension GitHubAPIClient_PerformRequestTests {
         
         // MARK: Then
         XCTAssertEqual(response, testResponse)
+    }
+    
+    func testDecodeResponseForNodobyResponseSuccess() async throws {
+        // MARK: Given
+        let testResponse: NoBodyResponse = .init()
+        let testData = try JSONEncoder().encode(testResponse)
+
+        // MARK: When
+        let response: NoBodyResponse = try GitHubAPIClient.decodeResponse(
+            data: testData,
+            httpResponse: .init(status: .ok)
+        )
+        
+        // MARK: Then
+        XCTAssertEqual(response, testResponse)
+    }
+    
+    func testDecodeResponseFailed() async throws {
+        // MARK: Given
+        let testResponse = "testResponse"
+        let testData = try JSONEncoder().encode(testResponse)
+
+        // MARK: When
+        do {
+            let _: GitHubAPIRequest.FetchRepo.Response = try GitHubAPIClient.decodeResponse(
+                data: testData,
+                httpResponse: .init(status: .ok)
+            )
+            XCTFail("期待するエラーが検出されませんでした")
+        } catch {
+            // MARK: Then
+            guard let clientError = error as? GitHubAPIClientError else {
+                XCTFail("unexpected error: \(error.localizedDescription)")
+                return
+            }
+            XCTAssertTrue(clientError.isResponseParseError, "unexpected error: \(error)")
+        }
     }
     
 }
