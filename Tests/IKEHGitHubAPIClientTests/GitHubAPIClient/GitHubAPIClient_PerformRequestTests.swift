@@ -58,13 +58,7 @@ extension GitHubAPIClient_PerformRequestTests {
     /// 一連のリクエスト処理: 失敗(APIからエラー返答)
     func testPerformRequestFailedByAPIError() async throws {
         // MARK: Given
-        // 汎用関数のテスト用にレポジトリ取得のリクエストを利用している(任意のもので良い)
-        let testResponse: GitHubAPIError = .Mock.badCredentials
-        let testData = try JSONEncoder().encode(testResponse)
-        let urlSessionStub: URLSessionStub = .init(
-            data: testData,
-            response: .init(status: .init(code: try XCTUnwrap(testResponse.statusCode)))
-        )
+        let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.badCredentials)
         sut = try .create(urlSession: urlSessionStub)
 
         // MARK: When

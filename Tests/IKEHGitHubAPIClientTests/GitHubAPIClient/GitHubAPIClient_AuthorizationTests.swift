@@ -137,12 +137,7 @@ extension GitHubAPIClient_AuthorizationTests {
     /// トークン取得: 失敗(OAuthError)
     func testFetchInitialTokenFailedByOAuthError() async throws {
         // MARK: Given
-        let testResponse: OAuthError = .Mock.incorrectClientCredentials
-        let testData = try JSONEncoder().encode(testResponse)
-        let urlSessionStub: URLSessionStub = .init(
-            data: testData,
-            response: .init(status: .init(code: try XCTUnwrap(testResponse.statusCode)))
-        )
+        let urlSessionStub = try URLSessionStub.create(with: OAuthError.Mock.incorrectClientCredentials)
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
@@ -184,12 +179,7 @@ extension GitHubAPIClient_AuthorizationTests {
     /// ログアウト: 失敗(OAuthError)
     func testLogoutFailByGitHubAPIError() async throws {
         // MARK: Given
-        let testResponse: GitHubAPIError = .Mock.badCredentials
-        let testData = try JSONEncoder().encode(testResponse)
-        let urlSessionStub: URLSessionStub = .init(
-            data: testData,
-            response: .init(status: .init(code: try XCTUnwrap(testResponse.statusCode)))
-        )
+        let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.badCredentials)
         sut = try .create(urlSession: urlSessionStub)
                                 
         // MARK: When
