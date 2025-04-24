@@ -91,8 +91,8 @@ extension GitHubAPIClient {
             try await performRequest(with: request)
         } catch {
             switch error {
-            case let GitHubAPIClientError.apiError(error):
-                if error.statusCode == HTTPResponse.Status.notModified.code {
+            case let GitHubAPIClientError.apiError(apiError):
+                if apiError.statusCode == HTTPResponse.Status.notModified.code {
                     return // 変更なしは成功とみなす
                 }
                 throw error
@@ -119,8 +119,8 @@ extension GitHubAPIClient {
             _ = try await performRequest(with: request)
         } catch {
             switch error {
-            case let GitHubAPIClientError.apiError(error):
-                if error.statusCode == HTTPResponse.Status.notModified.code {
+            case let GitHubAPIClientError.apiError(apiError):
+                if apiError.statusCode == HTTPResponse.Status.notModified.code {
                     return // 変更なしは成功とみなす
                 }
                 throw error

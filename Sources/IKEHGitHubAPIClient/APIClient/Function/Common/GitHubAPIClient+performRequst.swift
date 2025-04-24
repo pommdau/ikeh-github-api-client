@@ -73,16 +73,16 @@ extension GitHubAPIClient {
         if (200..<300).contains(httpResponse.status.code) {
             return
         }
-        
+        print(String(data: data, encoding: .utf8)!)
         var errorResponse: GitHubAPIError
         do {
             errorResponse = try JSONDecoder().decode(GitHubAPIError.self, from: data)
         } catch {
             // 未対応のエラーレスポンス、もしくはデータが空
-            print(String(data: data, encoding: .utf8)!)
+//            print(String(data: data, encoding: .utf8)!)
             throw GitHubAPIClientError.responseParseError(error)
         }
-//        errorResponse.statusCode = httpResponse.status.code
+        errorResponse.status = String(httpResponse.status.code)
         throw GitHubAPIClientError.apiError(errorResponse)
     }
     

@@ -26,13 +26,14 @@ public struct GitHubAPIError: Codable, Sendable, Error {
     
     // MARK: - Property
     
-    public var message: String  // レスポンスのJSONに必ず含まれる
+    public var message: String?  // レスポンスのJSONに必ず含まれる
     public var errors: [Self.Error?]?
-    public var status: String
-    public var documentationPath: String
+    public var status: String?
+    public var documentationPath: String?
     
     public var statusCode: Int? {
-        guard let statusCode = Int(status) else {
+        guard let status,
+              let statusCode = Int(status) else {
             return nil
         }
         return statusCode
@@ -51,6 +52,16 @@ extension GitHubAPIError: LocalizedError {
 
 extension GitHubAPIError {
     enum Mock {
+        
+        public static var notModified: GitHubAPIError {
+            .init(
+                message: nil,
+                errors: nil,
+                status: "304",
+                documentationPath: nil
+            )
+        }
+        
         public static var badCredentials: GitHubAPIError {
             .init(
                 message: "Bad credentials",
@@ -86,6 +97,11 @@ extension GitHubAPIError {
 
 extension GitHubAPIError.Mock {
     enum JSONString {
+        
+        static let notModified = """
+{}
+"""
+        
         static let badCredentials = """
 {
   "message":"Bad credentials",

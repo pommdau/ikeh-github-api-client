@@ -105,7 +105,7 @@ extension GitHubAPIClient_Starred {
     }
     
     /// ユーザのスターしたリポジトリの一覧の取得: 失敗(APIエラー)
-    func testStarredReposFailedByAPIError_() async throws {
+    func testCheckIsRepoStarredFailedByAPIError() async throws {
         // MARK: Given
         let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.badCredentials)
         sut = try .create(urlSession: urlSessionStub)
@@ -124,3 +124,111 @@ extension GitHubAPIClient_Starred {
         }
     }
 }
+
+
+// MARK: - リポジトリをスター済みにする機能のテスト
+
+extension GitHubAPIClient_Starred {
+    
+    /// リポジトリをスター済みにする: 成功
+    func testStarRepoSuccess() async throws {
+        // MARK: Given
+        let urlSessionStub: URLSessionStub = .init(
+            data: try JSONEncoder().encode(NoBodyResponse()),
+            response: .init(status: .ok))
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        try await sut.starRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        
+        // MARK: Then
+        // エラーが投げられていなければOK
+    }
+    
+    /// リポジトリをスター済みにする: 成功(すでにスター済みの場合)
+    func testStarRepoSuccessWhenAlreadyStarred() async throws {
+        // MARK: Given
+        let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.notModified)
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        try await sut.starRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        
+        // MARK: Then
+        // エラーが投げられていなければOK
+    }
+
+    /// ユーザのスターしたリポジトリの一覧の取得: 失敗(APIエラー)
+    func testStarReposFailedByAPIError() async throws {
+        // MARK: Given
+        let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.badCredentials)
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        do {
+            try await sut.starRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+            XCTFail("期待するエラーが検出されませんでした")
+        } catch {
+            // MARK: Then
+            guard let clientError = error as? GitHubAPIClientError else {
+                XCTFail("期待するエラーが検出されませんでした: \(error)")
+                return
+            }
+            XCTAssertTrue(clientError.isAPIError, "期待するエラーが検出されませんでした: \(error)")
+        }
+    }
+}
+
+// MARK: - リポジトリを未スターにする機能のテスト
+
+extension GitHubAPIClient_Starred {
+    
+    /// リポジトリを未スターにする: 成功
+    func testUntarRepoSuccess() async throws {
+        // MARK: Given
+        let urlSessionStub: URLSessionStub = .init(
+            data: try JSONEncoder().encode(NoBodyResponse()),
+            response: .init(status: .ok))
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        try await sut.unstarRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        
+        // MARK: Then
+        // エラーが投げられていなければOK
+    }
+    
+    /// リポジトリを未スターにする: 成功(すでに未スターの場合)
+    func testUnstarRepoSuccessWhenAlreadyStarred() async throws {
+        // MARK: Given
+        let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.notModified)
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        try await sut.unstarRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        
+        // MARK: Then
+        // エラーが投げられていなければOK
+    }
+
+    /// ユーザのスターしたリポジトリの一覧の取得: 失敗(APIエラー)
+    func testUnstarReposFailedByAPIError() async throws {
+        // MARK: Given
+        let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.badCredentials)
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        do {
+            try await sut.unstarRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+            XCTFail("期待するエラーが検出されませんでした")
+        } catch {
+            // MARK: Then
+            guard let clientError = error as? GitHubAPIClientError else {
+                XCTFail("期待するエラーが検出されませんでした: \(error)")
+                return
+            }
+            XCTAssertTrue(clientError.isAPIError, "期待するエラーが検出されませんでした: \(error)")
+        }
+    }
+}
+
