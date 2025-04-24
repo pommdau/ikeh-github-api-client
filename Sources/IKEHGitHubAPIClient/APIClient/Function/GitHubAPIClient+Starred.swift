@@ -73,8 +73,7 @@ extension GitHubAPIClient {
         }
         return true // スター済み
     }
-    
-    
+        
     /// リポジトリをスター済みにする
     /// - Parameters:
     ///   - accessToken: アクセストークン

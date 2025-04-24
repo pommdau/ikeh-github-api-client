@@ -16,14 +16,13 @@ public struct ListResponse<Item: GitHubItem>: Sendable, PagingResponse {
 
 // MARK: - Encodable
 
-extension ListResponse: Encodable where Item: Encodable {
+extension ListResponse: Encodable where Item: GitHubItem {
     public func encode(to encoder: Encoder) throws {
         // URLQueryItemがCodableではないので除外する
         var container = encoder.singleValueContainer()
         try container.encode(items)
     }
 }
-
 
 // MARK: - Decodable
 

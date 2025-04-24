@@ -16,6 +16,16 @@ public struct StarredReposResponse: Sendable, PagingResponse {
     public var relationLink: RelationLink? // ページング情報
 }
 
+// MARK: - Encodable
+
+extension StarredReposResponse: Encodable {
+    public func encode(to encoder: Encoder) throws {
+        // RelationLink(URLQueryItem)がCodableではないので除外する
+        var container = encoder.singleValueContainer()
+        try container.encode(repos)
+    }
+}
+
 // MARK: - Decodable
 
 extension StarredReposResponse: Decodable {
