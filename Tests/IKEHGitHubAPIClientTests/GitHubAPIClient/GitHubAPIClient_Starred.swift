@@ -34,11 +34,10 @@ final class GitHubAPIClient_Starred: XCTestCase {
 
 extension GitHubAPIClient_Starred {
     
-    /// ユーザ情報の取得: 成功
+    /// ユーザのスターしたリポジトリの一覧の取得: 成功
     func testStarredReposSuccess() async throws {
         // MARK: Given
-        let testRepos = Repo.Mock.random(count: 10)
-        let testResponse: StarredReposResponse = .init(repos: testRepos)
+        let testResponse: StarredReposResponse = .init(starredRepos: StarredRepo.Mock.random(count: 10))
         
         let urlSessionStub: URLSessionStub = .init(
             data: try JSONEncoder().encode(testResponse),
@@ -46,17 +45,13 @@ extension GitHubAPIClient_Starred {
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
-        do {
-            let response = try await sut.fetchStarredRepos(userName: "userName")
-        } catch {
-            fatalError(error.localizedDescription)
-        }
+        let response = try await sut.fetchStarredRepos(userName: "userName")
         
         // MARK: Then
-//        XCTAssertEqual(response.repos, testRepos)
+        XCTAssertEqual(response.starredRepos, testResponse.starredRepos)
     }
     
-    /// ユーザ情報の取得: 失敗(APIエラー)
+    /// ユーザのスターしたリポジトリの一覧の取得: 失敗(APIエラー)
     func testFetchUserFailedByAPIError() async throws {
         // MARK: Given
         let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.badCredentials)
@@ -64,7 +59,7 @@ extension GitHubAPIClient_Starred {
         
         // MARK: When
         do {
-            _ = try await sut.fetchUser(accessToken: "accessToken", login: "login")
+            _ = try await sut.fetchStarredRepos(userName: "userName")
             XCTFail("期待するエラーが検出されませんでした")
         } catch {
             // MARK: Then

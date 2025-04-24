@@ -7,9 +7,22 @@
 
 import Foundation
 
-public struct StarredReposResponse: Sendable, PagingResponse {
+public struct StarredRepo: GitHubItem {
+    private enum CodingKeys: String, CodingKey {
+        case starredAt = "starred_at"
+        case repo
+    }
+    public var starredAt: String
+    public var repo: Repo
     
-    public var repos: [Repo]
+    // MARK: - Identifiable
+    
+    public var id: SwiftID<Self> { "\(repo.id)" }        
+}
+
+public struct StarredReposResponse: Sendable, PagingResponse {
+            
+    public var starredRepos: [StarredRepo]
     
     // MARK: PagingResponse
     
@@ -20,53 +33,43 @@ public struct StarredReposResponse: Sendable, PagingResponse {
 
 extension StarredReposResponse: Encodable {
     public func encode(to encoder: Encoder) throws {
-        // RelationLink(URLQueryItem)がCodableではないので除外する
+        // URLQueryItemがCodableではないので除外する
         var container = encoder.singleValueContainer()
-        try container.encode(repos)
+        try container.encode(starredRepos)
     }
 }
 
 // MARK: - Decodable
 
 extension StarredReposResponse: Decodable {
-    
-    struct StarredRepo: GitHubItem {
-        private enum CodingKeys: String, CodingKey {
-            case starredAt = "starred_at"
-            case repo
-        }
-        var starredAt: String
-        var repo: Repo
-        
-        var id: SwiftID<Self> { "\(repo.id)" }
-        
-        func convertToRepo() -> Repo {
-            var repo = self.repo
-            // スター情報を付与
-            repo.starredAt = self.starredAt
-            repo.isStarred = true
-            return repo
-        }
-    }
-    
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        let response = try container.decode(ListResponse<StarredRepo>.self)
-        self.repos = response.items.map { $0.convertToRepo() }
+        self.starredRepos = try container.decode([StarredRepo].self)
     }
 }
 
 // MARK: - Mock
 
-extension StarredReposResponse {
+extension StarredRepo {
     public enum Mock {
-        public static func random(count: Int) -> StarredReposResponse {
-            return .init(repos: Repo.Mock.random(count: count))
+        public static func random(count: Int) -> [StarredRepo] {
+            let repos = Repo.Mock.random(count: count)
+            let starredRepos = repos.map { repo in
+                let starredAt = ISO8601DateFormatter.shared.string(
+                    from: Date.random(inPastYears: 5)
+                )
+                return StarredRepo(starredAt: starredAt, repo: repo)
+            }
+            return starredRepos
         }
     }
 }
 
 // MARK: - JSONString
+/*
+struct StarredReposResponse {
+    public struct Mock {}
+}
 
 extension StarredReposResponse.Mock {
     enum JSONString {
@@ -191,3 +194,4 @@ extension StarredReposResponse.Mock {
 """#
     }
 }
+*/

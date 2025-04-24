@@ -36,16 +36,7 @@ public struct Repo: GitHubItem {
     public var description: String?
     public var createdAt: String // e.g. "2015-10-23T21:15:07Z",
     public var updatedAt: String // e.g. "2025-02-02T06:17:34Z",
-    
-    // MARK: その他の補完されて取得される情報
-    
-    // 詳細情報
-    public var subscribersCount: Int? // unused now
         
-    // スター情報
-    public var starredAt: String? // e.g. "2024-12-17T01:54:20Z"
-    public var isStarred: Bool = false
-    
     // MARK: - Identifiable
     
     /// 固有型のID
@@ -62,38 +53,6 @@ public struct Repo: GitHubItem {
             return nil
         }
         return URL(string: websitePath)
-    }
-}
-
-// MARK: - Update
-
-extension Repo {
-        
-    static func mergeRepos(existingRepos: [Repo], newRepos: [Repo], updateStarred: Bool) -> [Repo] {
-        let mergedRepos = newRepos.map { newRepo in
-            guard let existingRepo = existingRepos.first(where: { $0.id == newRepo.id }) else {
-                return newRepo // 新規登録の場合は新しい情報をそのまま返す
-            }
-            
-            if updateStarred {
-                // スター情報を含めて更新
-                return newRepo
-            } else {
-                // スター情報は更新しない
-                return newRepo.updated(
-                    isStarred: existingRepo.isStarred,
-                    starredAt: existingRepo.starredAt
-                )
-            }
-        }
-        return mergedRepos
-    }
-    
-    func updated(isStarred: Bool, starredAt: String? = nil) -> Repo {
-        var updatedRepo = self
-        updatedRepo.isStarred = isStarred
-        updatedRepo.starredAt = starredAt
-        return updatedRepo
     }
 }
 
@@ -155,8 +114,8 @@ extension Repo {
                   websitePath: "https://www.swift.org/ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
                   description: String(repeating: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", count: 5),
                   createdAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
-                  updatedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
-                  subscribersCount: 2508)
+                  updatedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10))
+            )
         
         static let sampleDataWithoutSomeInfo: Repo =
             .init(rawID: 44838949,
@@ -173,7 +132,6 @@ extension Repo {
                   description: nil,
                   createdAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
                   updatedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
-                  subscribersCount: 0
             )
         
         static let sampleDataForReposCellSkelton = Repo(
@@ -194,7 +152,6 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 """,
             createdAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
             updatedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
-            subscribersCount: 0
         )
     }
 }

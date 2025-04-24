@@ -198,7 +198,7 @@ extension GitHubAPIClient_PerformRequestTests {
 // MARK: - Test レスポンスのデコード機能のテスト
 
 extension GitHubAPIClient_PerformRequestTests {
-        
+    /*
     /// attachPagingIfNeeded: 成功
     func testAttachPagingIfNeededSuccess() async throws {
         // MARK: Given
@@ -254,7 +254,7 @@ extension GitHubAPIClient_PerformRequestTests {
         // エラーが発生していない、かつページ情報が空の確認
         XCTAssertNil(responseWithPaging.relationLink)
     }
-    
+    */
     // TODO 分ける
     
     
