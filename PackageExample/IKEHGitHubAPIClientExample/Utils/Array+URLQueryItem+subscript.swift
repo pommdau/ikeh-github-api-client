@@ -14,3 +14,4 @@ extension [URLQueryItem] {
         first(where: { $0.name == key })?.value
     }
 }
+
