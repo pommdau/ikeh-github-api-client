@@ -40,7 +40,7 @@ extension GitHubAPIClient {
         return response
     }
         
-    /// 指定したリポジトリがスター済みかどうかを取得
+    /// 指定したリポジトリのスター状態取得
     /// - Parameters:
     ///   - accessToken: アクセストークン
     ///   - ownerName: リポジトリのオーナ名
@@ -62,8 +62,8 @@ extension GitHubAPIClient {
             _ = try await performRequest(with: request)
         } catch {
             switch error {
-            case let GitHubAPIClientError.apiError(error):
-                if error.statusCode == HTTPResponse.Status.notFound.code {
+            case let GitHubAPIClientError.apiError(apiError):
+                if apiError.statusCode == HTTPResponse.Status.notFound.code {
                     return false // スターされていない
                 }
                 throw error

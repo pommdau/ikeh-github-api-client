@@ -106,7 +106,7 @@ extension RelationLink {
 extension RelationLink {
 
     public enum Mock {
-        public static let fetchSearchReposResponse: RelationLink = {
+        public static let searchReposResponse: RelationLink = {
             guard let nextLinkURL = URL(string: "https://api.github.com/search/repositories?q=SwiftUI&per_page=10&page=2"),
                   let lastLinkURL = URL(string: "https://api.github.com/search/repositories?q=SwiftUI&per_page=10&page=100")
             else {
@@ -160,6 +160,11 @@ extension RelationLink {
 
 extension RelationLink.Mock {
     enum RawString {
+        
+        static let searchReposResponse = """
+<https://api.github.com/search/repositories?q=Apple&per_page=10&page=2>; rel=\"next\", <https://api.github.com/search/repositories?q=Apple&per_page=10&page=100>; rel=\"last\"
+"""
+        
         static let fetchStarredReposResponse = """
 <https://api.github.com/user/29433103/starred?sort=created&direction=desc&per_page=5&page=2>; rel=\"next\", <https://api.github.com/user/29433103/starred?sort=created&direction=desc&per_page=5&page=12>; rel=\"last\"
 """

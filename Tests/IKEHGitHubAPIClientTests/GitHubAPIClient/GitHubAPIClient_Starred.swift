@@ -52,7 +52,7 @@ extension GitHubAPIClient_Starred {
     }
     
     /// ユーザのスターしたリポジトリの一覧の取得: 失敗(APIエラー)
-    func testFetchUserFailedByAPIError() async throws {
+    func testStarredReposFailedByAPIError() async throws {
         // MARK: Given
         let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.badCredentials)
         sut = try .create(urlSession: urlSessionStub)
@@ -60,6 +60,59 @@ extension GitHubAPIClient_Starred {
         // MARK: When
         do {
             _ = try await sut.fetchStarredRepos(userName: "userName")
+            XCTFail("期待するエラーが検出されませんでした")
+        } catch {
+            // MARK: Then
+            guard let clientError = error as? GitHubAPIClientError else {
+                XCTFail("期待するエラーが検出されませんでした: \(error)")
+                return
+            }
+            XCTAssertTrue(clientError.isAPIError, "期待するエラーが検出されませんでした: \(error)")
+        }
+    }
+}
+
+// MARK: - 指定したリポジトリのスター状態取得のテスト
+
+extension GitHubAPIClient_Starred {
+    
+    /// ユーザのスターしたリポジトリの一覧の取得: 成功(スター済み)
+    func testCheckIsRepoStarredSuccessWhenStarred() async throws {
+        // MARK: Given
+        let urlSessionStub: URLSessionStub = .init(
+            data: try JSONEncoder().encode(NoBodyResponse()),
+            response: .init(status: .ok))
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        let response = try await sut.checkIsRepoStarred(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        
+        // MARK: Then
+        XCTAssertTrue(response)
+    }
+    
+    /// ユーザのスターしたリポジトリの一覧の取得: 成功(未スター)
+    func testCheckIsRepoStarredSuccessWhenUnstarred() async throws {
+        // MARK: Given
+        let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.notFound)
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        let response = try await sut.checkIsRepoStarred(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        
+        // MARK: Then
+        XCTAssertFalse(response)
+    }
+    
+    /// ユーザのスターしたリポジトリの一覧の取得: 失敗(APIエラー)
+    func testStarredReposFailedByAPIError_() async throws {
+        // MARK: Given
+        let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.badCredentials)
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        do {
+            _ = try await sut.checkIsRepoStarred(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
             XCTFail("期待するエラーが検出されませんでした")
         } catch {
             // MARK: Then

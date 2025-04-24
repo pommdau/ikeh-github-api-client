@@ -63,8 +63,8 @@ extension SearchReposView {
                 Task {
                     do {
                         let response = try await gitHubAPIClient.searchRepos(
-                            accessToken: tokenStore.accessToken,
                             searchText: searchReposText,
+                            accessToken: tokenStore.accessToken,
                             perPage: perPage
                         )
                         searchedRepos = response.items
@@ -111,10 +111,10 @@ extension SearchReposView {
                 }
                 
                 let response = try await gitHubAPIClient.searchRepos(
-                    accessToken: tokenStore.accessToken,
                     searchText: query,
-                    page: Int(page),
-                    perPage: Int(perPage)
+                    accessToken: tokenStore.accessToken,
+                    perPage: Int(perPage),
+                    page: Int(page)
                 )
                 searchedRepos += response.items
                 searchReposNextLink = response.relationLink?.next
@@ -231,17 +231,17 @@ extension SearchReposView {
             TextField("User", text: $starredReposText)
             Button("Fetch") {
                 Task {
-                    do {
-                        let response = try await gitHubAPIClient.fetchStarredRepos(
-                            userName: starredReposText,
-                            accessToken: tokenStore.accessToken,
-                            perPage: perPage
-                        )
-                        starredRepos = response.repos
-                        starredReposNextLink = response.relationLink?.next
-                    } catch {
-                        print(error.localizedDescription)
-                    }
+//                    do {
+//                        let response = try await gitHubAPIClient.fetchStarredRepos(
+//                            userName: starredReposText,
+//                            accessToken: tokenStore.accessToken,
+//                            perPage: perPage
+//                        )
+//                        starredRepos = response.starredRepos
+//                        starredReposNextLink = response.relationLink?.next
+//                    } catch {
+//                        print(error.localizedDescription)
+//                    }
                 }
             }
         }
@@ -273,22 +273,22 @@ extension SearchReposView {
     private func fetchStarredReposMoreButton() -> some View {
         Button("More") {
             Task {
-                guard
-                    let nextLink = starredReposNextLink,
-                    let page = nextLink.queryItems["page"],
-                    let perPage = nextLink.queryItems["per_page"]
-                else {
-                    return
-                }
-                let response = try await gitHubAPIClient.fetchStarredRepos(
-                    userName: starredReposText,
-                    accessToken: tokenStore.accessToken,
-                    page: Int(page),
-                    perPage: Int(perPage),
-                )
-                                                
-                starredRepos += response.repos
-                starredReposNextLink = response.relationLink?.next
+//                guard
+//                    let nextLink = starredReposNextLink,
+//                    let page = nextLink.queryItems["page"],
+//                    let perPage = nextLink.queryItems["per_page"]
+//                else {
+//                    return
+//                }
+//                let response = try await gitHubAPIClient.fetchStarredRepos(
+//                    userName: starredReposText,
+//                    accessToken: tokenStore.accessToken,
+//                    perPage: Int(perPage),
+//                    page: Int(page),
+//                )
+//                                                
+//                starredRepos += response.repos
+//                starredReposNextLink = response.relationLink?.next
             }
         }
         .frame(maxWidth: .infinity, alignment: .trailing)

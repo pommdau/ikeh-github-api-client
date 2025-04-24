@@ -28,15 +28,15 @@ public struct User: GitHubItem {
 
     public let rawID: Int
     public var login: String // e.g. "pommdau"
-    public var name: String // e.g. "IKEH"
+    public var name: String? // e.g. "IKEH"
     public var avatarImagePath: String
     public var htmlPath: String?  // e.g. https://github.com/apple
     public var location: String? // e.g. "Osaka"
     public var bio: String?
     public var twitterUsername: String? // e.g. "ikeh1024"
-    public var publicRepos: Int
-    public var followers: Int
-    public var following: Int
+    public var publicRepos: Int?
+    public var followers: Int?
+    public var following: Int?
            
     // MARK: - Identifiable
     
