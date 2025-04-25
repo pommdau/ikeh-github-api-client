@@ -126,7 +126,7 @@ extension GitHubAPIClientPerformRequestTests {
     }
 }
 
-// MARK: - Test レスポンスの成否判定機能のテスト
+// MARK: - レスポンスの成否判定機能のテスト
 
 extension GitHubAPIClientPerformRequestTests {
         
@@ -195,24 +195,26 @@ extension GitHubAPIClientPerformRequestTests {
     }
 }
 
-// MARK: - Test レスポンスのデコード機能のテスト
+// MARK: - レスポンスのデコード機能のテスト
 
 extension GitHubAPIClientPerformRequestTests {
-    /*
+    
+    // MARK: ページング情報の付与
+    
     /// attachPagingIfNeeded: 成功
     func testAttachPagingIfNeededSuccess() async throws {
         // MARK: Given
         
         // テスト用のレスポンスBodyの作成
         let testRepos: [Repo] = Repo.Mock.random(count: 10)
-        let testResponse: GitHubAPIRequest.FetchStarredRepos.Response = .init(repos: testRepos)
+        let testResponse: GitHubAPIRequest.SearchReposRequest.Response = .init(totalCount: testRepos.count, items: testRepos)
         
         // テスト用のレスポンスHeaderの作成
         var testHeaderFields = HTTPFields()
         testHeaderFields.append(
             HTTPField(
-                name: HTTPField.Name("Link")!,
-                value: RelationLink.Mock.RawString.fetchStarredReposResponse
+                name: try XCTUnwrap(HTTPField.Name("Link")),
+                value: RelationLink.Mock.RawString.searchReposResponse
             )
         )
         let testHTTPResponse: HTTPResponse = .init(
@@ -220,7 +222,7 @@ extension GitHubAPIClientPerformRequestTests {
             headerFields: testHeaderFields
         )
         XCTAssertNil(testResponse.relationLink)
-
+        
         // MARK: When
         
         let responseWithPaging = try GitHubAPIClient.attachPagingIfNeeded(
@@ -232,19 +234,18 @@ extension GitHubAPIClientPerformRequestTests {
         XCTAssertNotNil(responseWithPaging.relationLink)
     }
     
-    /// attachPagingIfNeeded: 失敗(リンクの情報がない)
-    func testAttachPagingIfNeededFailedByNotExistLinkInfo() async throws {
+    /// attachPagingIfNeeded: 成功(レスポンスヘッダにリンクの情報がない場合)
+    func testAttachPagingIfNeededSuccessWhenPagingIsNil() async throws {
         // MARK: Given
         
         let testRepos: [Repo] = Repo.Mock.random(count: 10)
-        let testResponse: GitHubAPIRequest.FetchStarredRepos.Response = .init(repos: testRepos)
+        let testResponse: GitHubAPIRequest.SearchReposRequest.Response = .init(totalCount: testRepos.count, items: testRepos)
         let testHTTPResponse: HTTPResponse = .init(
             status: .ok,
             headerFields: .init()
         )
-
-        // MARK: When
         
+        // MARK: When
         let responseWithPaging = try GitHubAPIClient.attachPagingIfNeeded(
             to: testResponse,
             from: testHTTPResponse
@@ -254,8 +255,8 @@ extension GitHubAPIClientPerformRequestTests {
         // エラーが発生していない、かつページ情報が空の確認
         XCTAssertNil(responseWithPaging.relationLink)
     }
-    */
-    // TODO 分ける
+
+    // MARK: レスポンスのデコード処理のテスト
     
     func testDecodeResponseSuccess() async throws {
         // MARK: Given

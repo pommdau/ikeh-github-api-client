@@ -44,7 +44,7 @@ extension GitHubAPIClient {
             throw GitHubAPIClientError.connectionError(error)
         }
         
-        print(String(data: data, encoding: .utf8)!)
+//        print(String(data: data, encoding: .utf8)!)
         
         return (data, httpResponse)
     }
@@ -73,7 +73,7 @@ extension GitHubAPIClient {
         if (200..<300).contains(httpResponse.status.code) {
             return
         }
-        print(String(data: data, encoding: .utf8)!)
+//        print(String(data: data, encoding: .utf8)!)
         var errorResponse: GitHubAPIError
         do {
             errorResponse = try JSONDecoder().decode(GitHubAPIError.self, from: data)
@@ -135,7 +135,7 @@ extension GitHubAPIClient {
                 response = try JSONDecoder().decode(Response.self, from: data)
             }
         } catch {
-            print(String(data: data, encoding: .utf8)!)
+//            print(String(data: data, encoding: .utf8)!)
             throw GitHubAPIClientError.responseParseError(error)
         }
         response = try Self.attachPagingIfNeeded(to: response, from: httpResponse)
