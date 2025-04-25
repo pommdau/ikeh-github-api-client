@@ -36,7 +36,10 @@ let package = Package(
         ),
         .testTarget(
             name: "IKEHGitHubAPIClientTests",
-            dependencies: ["IKEHGitHubAPIClient"]
+            dependencies: ["IKEHGitHubAPIClient"],
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins"),
+            ],
         ),
     ]
 )

@@ -10,11 +10,11 @@ import XCTest
 import HTTPTypes
 @testable import IKEHGitHubAPIClient
 
-final class GitHubAPIClient_Starred: XCTestCase {
+final class GitHubAPIClientStarred: XCTestCase {
     
     // MARK: - Property
     
-    var sut: GitHubAPIClient!
+    private var sut: GitHubAPIClient!
     
     // MARK: - SetUp
     
@@ -32,7 +32,7 @@ final class GitHubAPIClient_Starred: XCTestCase {
 
 // MARK: - ユーザのスターしたリポジトリの一覧の取得のテスト
 
-extension GitHubAPIClient_Starred {
+extension GitHubAPIClientStarred {
     
     /// ユーザのスターしたリポジトリの一覧の取得: 成功
     func testStarredReposSuccess() async throws {
@@ -74,7 +74,7 @@ extension GitHubAPIClient_Starred {
 
 // MARK: - 指定したリポジトリのスター状態取得のテスト
 
-extension GitHubAPIClient_Starred {
+extension GitHubAPIClientStarred {
     
     /// ユーザのスターしたリポジトリの一覧の取得: 成功(スター済み)
     func testCheckIsRepoStarredSuccessWhenStarred() async throws {
@@ -125,10 +125,9 @@ extension GitHubAPIClient_Starred {
     }
 }
 
-
 // MARK: - リポジトリをスター済みにする機能のテスト
 
-extension GitHubAPIClient_Starred {
+extension GitHubAPIClientStarred {
     
     /// リポジトリをスター済みにする: 成功
     func testStarRepoSuccess() async throws {
@@ -181,7 +180,7 @@ extension GitHubAPIClient_Starred {
 
 // MARK: - リポジトリを未スターにする機能のテスト
 
-extension GitHubAPIClient_Starred {
+extension GitHubAPIClientStarred {
     
     /// リポジトリを未スターにする: 成功
     func testUntarRepoSuccess() async throws {
@@ -231,4 +230,3 @@ extension GitHubAPIClient_Starred {
         }
     }
 }
-

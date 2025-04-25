@@ -2,11 +2,11 @@ import Foundation
 import XCTest
 @testable import IKEHGitHubAPIClient
 
-final class GitHubAPIClient_FetchUserTests: XCTestCase {
+final class GitHubAPIClientFetchUserTests: XCTestCase {
     
     // MARK: - Property
     
-    var sut: GitHubAPIClient!
+    private var sut: GitHubAPIClient!
     
     // MARK: - SetUp
     
@@ -24,7 +24,7 @@ final class GitHubAPIClient_FetchUserTests: XCTestCase {
 
 // MARK: - 認証ユーザ情報の取得のテスト
 
-extension GitHubAPIClient_FetchUserTests {
+extension GitHubAPIClientFetchUserTests {
     
     /// 認証ユーザ情報の取得: 成功
     func testFetchLoginUserSuccess() async throws {
@@ -66,7 +66,7 @@ extension GitHubAPIClient_FetchUserTests {
 
 // MARK: - ユーザ情報の取得のテスト
 
-extension GitHubAPIClient_FetchUserTests {
+extension GitHubAPIClientFetchUserTests {
     
     /// ユーザ情報の取得: 成功
     func testFetchUserSuccess() async throws {

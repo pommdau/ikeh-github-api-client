@@ -2,11 +2,11 @@ import XCTest
 @testable import IKEHGitHubAPIClient
 
 /// GitHubAPIClientの認証機能のテスト
-final class GitHubAPIClient_AuthorizationTests: XCTestCase {
+final class GitHubAPIClientAuthorizationTests: XCTestCase {
     
     // MARK: - Property
     
-    var sut: GitHubAPIClient!
+    private var sut: GitHubAPIClient!
     
     // MARK: - SetUp
     
@@ -24,7 +24,7 @@ final class GitHubAPIClient_AuthorizationTests: XCTestCase {
 
 // MARK: - コールバックURLの受け取り処理のテスト
 
-extension GitHubAPIClient_AuthorizationTests {
+extension GitHubAPIClientAuthorizationTests {
     /// コールバックURLからセッションコードの抽出: 成功
     @MainActor
     func testExtactSessionCodeFromCallbackURLSuccess() async throws {
@@ -113,7 +113,7 @@ extension GitHubAPIClient_AuthorizationTests {
 
 // MARK: - トークン取得のテスト
 
-extension GitHubAPIClient_AuthorizationTests {
+extension GitHubAPIClientAuthorizationTests {
     
     /// トークン取得: 成功
     @MainActor
@@ -160,7 +160,7 @@ extension GitHubAPIClient_AuthorizationTests {
 
 // MARK: - ログアウト
 
-extension GitHubAPIClient_AuthorizationTests {
+extension GitHubAPIClientAuthorizationTests {
     
     /// ログアウト: 成功
     func testLogoutSuccess() async throws {

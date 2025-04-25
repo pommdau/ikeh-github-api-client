@@ -14,7 +14,7 @@ final class GitHubAPIClientTests: XCTestCase {
     
     // MARK: - Property
     
-    var sut: GitHubAPIClient!
+    private var sut: GitHubAPIClient!
     
     // MARK: - SetUp
     

@@ -10,11 +10,11 @@ import XCTest
 import HTTPTypes
 @testable import IKEHGitHubAPIClient
 
-final class GitHubAPIClient_PerformRequestTests: XCTestCase {
+final class GitHubAPIClientPerformRequestTests: XCTestCase {
     
     // MARK: - Property
     
-    var sut: GitHubAPIClient!
+    private var sut: GitHubAPIClient!
     
     // MARK: - SetUp
     
@@ -33,7 +33,7 @@ final class GitHubAPIClient_PerformRequestTests: XCTestCase {
 // MARK: - リクエスト送信のテスト
 // 各処理を別途テストしているので、ここでは主な成功と失敗のみのテストのみとしている
 
-extension GitHubAPIClient_PerformRequestTests {
+extension GitHubAPIClientPerformRequestTests {
     
     /// 一連のリクエスト処理: 成功
     func testPerformRequestSuccess() async throws {
@@ -64,7 +64,7 @@ extension GitHubAPIClient_PerformRequestTests {
         // MARK: When
         do {
             let testRequest: GitHubAPIRequest.FetchRepo = .init(owner: "owner", repo: "repo")
-            let _ = try await sut.performRequest(with: testRequest)
+            _ = try await sut.performRequest(with: testRequest)
             XCTFail("期待するエラーが検出されませんでした")
         } catch {
             // MARK: Then
@@ -79,7 +79,7 @@ extension GitHubAPIClient_PerformRequestTests {
 
 // MARK: - リクエスト送信機能のテスト
 
-extension GitHubAPIClient_PerformRequestTests {
+extension GitHubAPIClientPerformRequestTests {
     
     func testSendRequestSuccess() async throws {
         // MARK: Given
@@ -128,7 +128,7 @@ extension GitHubAPIClient_PerformRequestTests {
 
 // MARK: - Test レスポンスの成否判定機能のテスト
 
-extension GitHubAPIClient_PerformRequestTests {
+extension GitHubAPIClientPerformRequestTests {
         
     /// checkResponse: 成功
     func testCheckResponseDefaultSuccess() async throws {
@@ -197,7 +197,7 @@ extension GitHubAPIClient_PerformRequestTests {
 
 // MARK: - Test レスポンスのデコード機能のテスト
 
-extension GitHubAPIClient_PerformRequestTests {
+extension GitHubAPIClientPerformRequestTests {
     /*
     /// attachPagingIfNeeded: 成功
     func testAttachPagingIfNeededSuccess() async throws {
@@ -257,7 +257,6 @@ extension GitHubAPIClient_PerformRequestTests {
     */
     // TODO 分ける
     
-    
     func testDecodeResponseSuccess() async throws {
         // MARK: Given
         let testResponse: GitHubAPIRequest.FetchRepo.Response = Repo.Mock.random()
@@ -311,4 +310,3 @@ extension GitHubAPIClient_PerformRequestTests {
     }
     
 }
-

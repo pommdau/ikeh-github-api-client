@@ -51,7 +51,11 @@ extension StarredReposResponse: Decodable {
 // MARK: - Mock
 
 extension StarredRepo {
+    /// StarredRepoのMock
     public enum Mock {
+        /// 指定した個数のStarredRepoをランダムに生成
+        /// - Parameter count: 要素数
+        /// - Returns: 指定した個数のStarredRepoの配列
         public static func random(count: Int) -> [StarredRepo] {
             let repos = Repo.Mock.random(count: count)
             let starredRepos = repos.map { repo in

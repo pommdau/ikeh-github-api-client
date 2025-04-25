@@ -2,11 +2,11 @@ import Foundation
 import XCTest
 @testable import IKEHGitHubAPIClient
 
-final class GitHubAPIClient_FetchReposTests: XCTestCase {
+final class GitHubAPIClientFetchReposTests: XCTestCase {
     
     // MARK: - Property
     
-    var sut: GitHubAPIClient!
+    private var sut: GitHubAPIClient!
     
     // MARK: - SetUp
     
@@ -24,7 +24,7 @@ final class GitHubAPIClient_FetchReposTests: XCTestCase {
 
 // MARK: - リポジトリの検索のテスト
 
-extension GitHubAPIClient_FetchReposTests {
+extension GitHubAPIClientFetchReposTests {
     
     /// リポジトリの検索: 成功
     func testSearchReposSuccess() async throws {
@@ -72,7 +72,7 @@ extension GitHubAPIClient_FetchReposTests {
 
 // MARK: - 特定ユーザのリポジトリ一覧取得のテスト
 
-extension GitHubAPIClient_FetchReposTests {
+extension GitHubAPIClientFetchReposTests {
     
     /// 特定ユーザのリポジトリ一覧取得: 成功
     func testFetchUserReposSuccess() async throws {
@@ -114,7 +114,7 @@ extension GitHubAPIClient_FetchReposTests {
 
 // MARK: - 特定のリポジトリの情報取得のテスト
 
-extension GitHubAPIClient_FetchReposTests {
+extension GitHubAPIClientFetchReposTests {
     
     /// 特定のリポジトリの情報取得のテスト: 成功
     func testFetchRepoSuccess() async throws {
@@ -152,4 +152,3 @@ extension GitHubAPIClient_FetchReposTests {
         }
     }
 }
-
