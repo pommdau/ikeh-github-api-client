@@ -1,10 +1,3 @@
-//
-//  Array+URLQueryItem_subscript.swift
-//  IKEHGitHubAPIDemo
-//
-//  Created by HIROKI IKEUCHI on 2025/02/26.
-//
-
 import Foundation
 
 /// [URLQueryItem]で次のようにアクセスできるようにする
@@ -14,4 +7,3 @@ extension [URLQueryItem] {
         first(where: { $0.name == key })?.value
     }
 }
-

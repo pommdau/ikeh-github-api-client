@@ -4,6 +4,7 @@ import XCTest
 
 /// テスト用のファクトリメソッド
 extension URLSessionStub {
+    /// ユニットテスト用のファクトリメソッド
     static func create(with error: GitHubAPIError) throws -> URLSessionStub {
         let testData = try JSONEncoder().encode(error)
         return URLSessionStub(
@@ -12,6 +13,7 @@ extension URLSessionStub {
         )
     }
     
+    /// ユニットテスト用のファクトリメソッド
     static func create(with error: OAuthError) throws -> URLSessionStub {
         let testData = try JSONEncoder().encode(error)
         return URLSessionStub(

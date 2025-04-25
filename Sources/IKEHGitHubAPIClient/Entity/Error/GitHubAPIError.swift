@@ -51,8 +51,9 @@ extension GitHubAPIError: LocalizedError {
 // MARK: - Mock
 
 extension GitHubAPIError {
-    enum Mock {
-        
+    /// GitHubAPIErrorのMock
+    public enum Mock {
+        /// GitHubAPIErrorのMock: notModified
         public static var notModified: GitHubAPIError {
             .init(
                 message: nil,
@@ -62,6 +63,7 @@ extension GitHubAPIError {
             )
         }
         
+        /// GitHubAPIErrorのMock: badCredentials
         public static var badCredentials: GitHubAPIError {
             .init(
                 message: "Bad credentials",
@@ -71,6 +73,7 @@ extension GitHubAPIError {
             )
         }
         
+        /// GitHubAPIErrorのMock: notFound
         public static var notFound: GitHubAPIError {
             .init(
                 message: "Not Found",
@@ -80,6 +83,7 @@ extension GitHubAPIError {
             )
         }
         
+        /// GitHubAPIErrorのMock: validationFailed
         public static var validationFailed: GitHubAPIError {
             .init(
                 message: "Validation Failed",

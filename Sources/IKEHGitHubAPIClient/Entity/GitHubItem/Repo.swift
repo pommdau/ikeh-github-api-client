@@ -59,46 +59,10 @@ public struct Repo: GitHubItem {
 // MARK: - Mock
 
 extension Repo {
-
+    /// RepoのMock
     public enum Mock {
         
-        public static func random(count: Int) -> [Repo] {
-            var repos: [Repo] = []
-            while repos.count < count {
-                let newRepo = Repo.Mock.random()
-                // IDの被りがないかをチェック
-                if repos.map({ $0.id }).contains(newRepo.id) {
-                    continue
-                }
-                repos.append(newRepo)
-            }
-            
-            return repos
-        }
-        
-        public static func random() -> Repo {
-            let randomID = Int.random(in: 1...Int.max)
-            let randomName = ["Tetris", "Chess", "Snake", "Pong", "Breakout"].randomElement() ?? ""
-            let randomOwner = User.Mock.random()
-            let randomLanguage = ["Swift", "Python", "JavaScript", "C++", "Rust"].randomElement()
-            
-            return Repo(
-                rawID: randomID,
-                name: randomName,
-                fullName: "\(randomOwner.login)/\(randomName)",
-                owner: randomOwner,
-                starsCount: Int.random(in: 0...10000),
-                watchersCount: Int.random(in: 0...5000),
-                forksCount: Int.random(in: 0...3000),
-                openIssuesCount: Int.random(in: 0...200),
-                language: randomLanguage,
-                htmlPath: "https://github.com/",
-                websitePath: Bool.random() ? "https://\(randomName.lowercased()).com" : nil,
-                description: "This is a random repository.",
-                createdAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
-                updatedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10))
-            )
-        }
+        // MARK: - 固定値のMock
         
         static let sampleDataWithLongWord: Repo =
             .init(rawID: 44838949,
@@ -153,8 +117,55 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
             createdAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
             updatedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
         )
+        
+        // MARK: ランダム生成されるMock
+        
+        /// 指定した個数のRepoをランダムに生成
+        /// - Parameter count: 要素数
+        /// - Returns: 指定した個数のRepoの配列
+        public static func random(count: Int) -> [Repo] {
+            var repos: [Repo] = []
+            while repos.count < count {
+                let newRepo = Repo.Mock.random()
+                // IDの被りがないかをチェック
+                if repos.map({ $0.id }).contains(newRepo.id) {
+                    continue
+                }
+                repos.append(newRepo)
+            }
+            
+            return repos
+        }
+        
+        /// Repoをランダムに生成
+        /// - Returns: Repo
+        public static func random() -> Repo {
+            let randomID = Int.random(in: 1...Int.max)
+            let randomName = ["Tetris", "Chess", "Snake", "Pong", "Breakout"].randomElement() ?? ""
+            let randomOwner = User.Mock.random()
+            let randomLanguage = ["Swift", "Python", "JavaScript", "C++", "Rust"].randomElement()
+            
+            return Repo(
+                rawID: randomID,
+                name: randomName,
+                fullName: "\(randomOwner.login)/\(randomName)",
+                owner: randomOwner,
+                starsCount: Int.random(in: 0...10000),
+                watchersCount: Int.random(in: 0...5000),
+                forksCount: Int.random(in: 0...3000),
+                openIssuesCount: Int.random(in: 0...200),
+                language: randomLanguage,
+                htmlPath: "https://github.com/",
+                websitePath: Bool.random() ? "https://\(randomName.lowercased()).com" : nil,
+                description: "This is a random repository.",
+                createdAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
+                updatedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10))
+            )
+        }
     }
 }
+
+// MARK: - JSONString
 
 extension Repo.Mock {
     enum JsonString {

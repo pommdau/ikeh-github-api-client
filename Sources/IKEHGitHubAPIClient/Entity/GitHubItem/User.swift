@@ -67,7 +67,11 @@ public struct User: GitHubItem {
 // MARK: - Mock
 
 extension User {
+    /// UserのMock
     public enum Mock {
+        /// 指定した個数のUserをランダムに生成
+        /// - Parameter count: 要素数
+        /// - Returns: 指定した個数のUserの配列
         public static func random(count: Int) -> [User] {
             var users: [User] = []
             while users.count < count {
@@ -82,6 +86,8 @@ extension User {
             return users
         }
         
+        /// Userをランダムに生成
+        /// - Returns: User
         public static func random() -> User {
             let randomID = Int.random(in: 1...Int.max)
             let randomLogin = ["alice", "bob", "charlie", "dave", "eve"].randomElement() ?? ""

@@ -65,7 +65,10 @@ public struct LoginUser: GitHubItem {
 // MARK: - Mock
 
 extension LoginUser {
+    
+    /// LoginUserのMock
     public enum Mock {
+        /// LoginUserのMock: ikeh
         public static let ikeh: LoginUser = .init(
             rawID: 29433103,
             login: "pommdau",

@@ -30,7 +30,10 @@ extension OAuthError: LocalizedError {
 // MARK: - Mock
 
 extension OAuthError {
+    
+    /// OAuthErrorのMock
     public enum Mock {
+        /// OAuthErrorのMock: incorrectClientCredentials
         public static var incorrectClientCredentials: OAuthError {
             .init(
                 error: "incorrect_client_credentials",

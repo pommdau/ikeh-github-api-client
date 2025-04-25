@@ -28,7 +28,7 @@ struct SearchReposView: View {
     @State private var userReposNextLink: RelationLink.Link?
     
     // MARK: ユーザのスター済みリポジトリの取得
-    @State private var starredRepos: [IKEHGitHubAPIClient.Repo] = []
+    @State private var starredRepos: [IKEHGitHubAPIClient.StarredRepo] = []
     @AppStorage("starredReposText")
     private var starredReposText = "pommdau"
     @State private var starredReposNextLink: RelationLink.Link?
@@ -59,7 +59,7 @@ extension SearchReposView {
     private func searchReposButton() -> some View {
         HStack {
             TextField("Repo", text: $searchReposText)
-            Button("Search") {
+            Button("Search") {                
                 Task {
                     do {
                         let response = try await gitHubAPIClient.searchRepos(
@@ -231,17 +231,17 @@ extension SearchReposView {
             TextField("User", text: $starredReposText)
             Button("Fetch") {
                 Task {
-//                    do {
-//                        let response = try await gitHubAPIClient.fetchStarredRepos(
-//                            userName: starredReposText,
-//                            accessToken: tokenStore.accessToken,
-//                            perPage: perPage
-//                        )
-//                        starredRepos = response.starredRepos
-//                        starredReposNextLink = response.relationLink?.next
-//                    } catch {
-//                        print(error.localizedDescription)
-//                    }
+                    do {
+                        let response = try await gitHubAPIClient.fetchStarredRepos(
+                            userName: starredReposText,
+                            accessToken: tokenStore.accessToken,
+                            perPage: perPage
+                        )
+                        starredRepos = response.starredRepos
+                        starredReposNextLink = response.relationLink?.next
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                 }
             }
         }
@@ -257,8 +257,8 @@ extension SearchReposView {
                 if starredRepos.isEmpty {
                     Text("(Empty)")
                 } else {
-                    ForEach(starredRepos) { repo in
-                        Text(repo.fullName)
+                    ForEach(starredRepos) { starredRepo in
+                        Text(starredRepo.repo.fullName)
                             .lineLimit(1)
                     }
                 }
@@ -273,22 +273,22 @@ extension SearchReposView {
     private func fetchStarredReposMoreButton() -> some View {
         Button("More") {
             Task {
-//                guard
-//                    let nextLink = starredReposNextLink,
-//                    let page = nextLink.queryItems["page"],
-//                    let perPage = nextLink.queryItems["per_page"]
-//                else {
-//                    return
-//                }
-//                let response = try await gitHubAPIClient.fetchStarredRepos(
-//                    userName: starredReposText,
-//                    accessToken: tokenStore.accessToken,
-//                    perPage: Int(perPage),
-//                    page: Int(page),
-//                )
-//                                                
-//                starredRepos += response.repos
-//                starredReposNextLink = response.relationLink?.next
+                guard
+                    let nextLink = starredReposNextLink,
+                    let page = nextLink.queryItems["page"],
+                    let perPage = nextLink.queryItems["per_page"]
+                else {
+                    return
+                }
+                let response = try await gitHubAPIClient.fetchStarredRepos(
+                    userName: starredReposText,
+                    accessToken: tokenStore.accessToken,
+                    perPage: Int(perPage),
+                    page: Int(page),
+                )
+                                                
+                starredRepos += response.starredRepos
+                starredReposNextLink = response.relationLink?.next
             }
         }
         .frame(maxWidth: .infinity, alignment: .trailing)
