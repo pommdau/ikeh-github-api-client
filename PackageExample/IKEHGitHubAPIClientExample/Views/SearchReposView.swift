@@ -28,7 +28,7 @@ struct SearchReposView: View {
     @State private var userReposNextLink: RelationLink.Link?
     
     // MARK: ユーザのスター済みリポジトリの取得
-    @State private var starredRepos: [IKEHGitHubAPIClient.Repo] = []
+    @State private var starredRepos: [IKEHGitHubAPIClient.StarredRepo] = []
     @AppStorage("starredReposText")
     private var starredReposText = "pommdau"
     @State private var starredReposNextLink: RelationLink.Link?
@@ -59,12 +59,12 @@ extension SearchReposView {
     private func searchReposButton() -> some View {
         HStack {
             TextField("Repo", text: $searchReposText)
-            Button("Search") {
+            Button("Search") {                
                 Task {
                     do {
                         let response = try await gitHubAPIClient.searchRepos(
-                            accessToken: tokenStore.accessToken,
                             searchText: searchReposText,
+                            accessToken: tokenStore.accessToken,
                             perPage: perPage
                         )
                         searchedRepos = response.items
@@ -111,10 +111,10 @@ extension SearchReposView {
                 }
                 
                 let response = try await gitHubAPIClient.searchRepos(
-                    accessToken: tokenStore.accessToken,
                     searchText: query,
-                    page: Int(page),
-                    perPage: Int(perPage)
+                    accessToken: tokenStore.accessToken,
+                    perPage: Int(perPage),
+                    page: Int(page)
                 )
                 searchedRepos += response.items
                 searchReposNextLink = response.relationLink?.next
@@ -237,7 +237,7 @@ extension SearchReposView {
                             accessToken: tokenStore.accessToken,
                             perPage: perPage
                         )
-                        starredRepos = response.repos
+                        starredRepos = response.starredRepos
                         starredReposNextLink = response.relationLink?.next
                     } catch {
                         print(error.localizedDescription)
@@ -257,8 +257,8 @@ extension SearchReposView {
                 if starredRepos.isEmpty {
                     Text("(Empty)")
                 } else {
-                    ForEach(starredRepos) { repo in
-                        Text(repo.fullName)
+                    ForEach(starredRepos) { starredRepo in
+                        Text(starredRepo.repo.fullName)
                             .lineLimit(1)
                     }
                 }
@@ -283,11 +283,11 @@ extension SearchReposView {
                 let response = try await gitHubAPIClient.fetchStarredRepos(
                     userName: starredReposText,
                     accessToken: tokenStore.accessToken,
-                    page: Int(page),
                     perPage: Int(perPage),
+                    page: Int(page),
                 )
                                                 
-                starredRepos += response.repos
+                starredRepos += response.starredRepos
                 starredReposNextLink = response.relationLink?.next
             }
         }

@@ -12,8 +12,13 @@ extension GitHubAPIClient {
     static let shared: GitHubAPIClient = .init(
         clientID: GitHubAPICredentials.clientID,
         clientSecret: GitHubAPICredentials.clientSecret,
+
         // swiftlint:disable:next force_unwrapping
         callbackURL: URL(string: "ikeh-github-api-client-example://callback")!,
-        scope: "repo" // ログインユーザのリポジトリを取得するためにスコープの設定が必要
+
+        // ログインユーザのリポジトリを取得するためにスコープの設定が必要
+        scope: "repo",
+
+        urlSession: URLSession.shared
     )
 }

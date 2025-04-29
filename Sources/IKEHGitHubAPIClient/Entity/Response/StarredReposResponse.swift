@@ -7,47 +7,77 @@
 
 import Foundation
 
+public struct StarredRepo: GitHubItem {
+    private enum CodingKeys: String, CodingKey {
+        case starredAt = "starred_at"
+        case repo
+    }
+    public var starredAt: String
+    public var repo: Repo
+    
+    // MARK: - Identifiable
+    
+    public var id: SwiftID<Self> { "\(repo.id)" }        
+}
+
 public struct StarredReposResponse: Sendable, PagingResponse {
+            
+    public var starredRepos: [StarredRepo]
     
-    public var repos: [Repo]
+    // MARK: PagingResponse
     
-    // MARK: - レスポンスのHeaderから所得される情報
     public var relationLink: RelationLink? // ページング情報
+}
+
+// MARK: - Encodable
+
+extension StarredReposResponse: Encodable {
+    public func encode(to encoder: Encoder) throws {
+        // URLQueryItemがCodableではないので除外する
+        var container = encoder.singleValueContainer()
+        try container.encode(starredRepos)
+    }
 }
 
 // MARK: - Decodable
 
 extension StarredReposResponse: Decodable {
-    
-    struct StarredRepo: GitHubItem {
-        private enum CodingKeys: String, CodingKey {
-            case starredAt = "starred_at"
-            case repo
-        }
-        var starredAt: String
-        var repo: Repo
-        
-        var id: SwiftID<Self> { "\(repo.id)" }
-        
-        func convertToRepo() -> Repo {
-            var repo = self.repo
-            // スター情報を付与
-            repo.starredAt = self.starredAt
-            repo.isStarred = true
-            return repo
-        }
-    }
-    
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        let response = try container.decode(ListResponse<StarredRepo>.self)
-        self.repos = response.items.map { $0.convertToRepo() }
+        self.starredRepos = try container.decode([StarredRepo].self)
     }
 }
 
-// MARK: - Debug
+// MARK: - Mock
 
-private let json = #"""
+extension StarredRepo {
+    /// StarredRepoのMock
+    public enum Mock {
+        /// 指定した個数のStarredRepoをランダムに生成
+        /// - Parameter count: 要素数
+        /// - Returns: 指定した個数のStarredRepoの配列
+        public static func random(count: Int) -> [StarredRepo] {
+            let repos = Repo.Mock.random(count: count)
+            let starredRepos = repos.map { repo in
+                let starredAt = ISO8601DateFormatter.shared.string(
+                    from: Date.random(inPastYears: 5)
+                )
+                return StarredRepo(starredAt: starredAt, repo: repo)
+            }
+            return starredRepos
+        }
+    }
+}
+
+// MARK: - JSONString
+/*
+struct StarredReposResponse {
+    public struct Mock {}
+}
+
+extension StarredReposResponse.Mock {
+    enum JSONString {
+        static let sample = #"""
 [
   {
     "starred_at" : "2024-12-17T01:54:20Z",
@@ -166,3 +196,6 @@ private let json = #"""
   }
 ]
 """#
+    }
+}
+*/

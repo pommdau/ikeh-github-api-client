@@ -6,8 +6,8 @@ import HTTPTypes
 extension GitHubAPIRequest {
     struct FetchRepo {
         var accessToken: String?
-        var owner: String
-        var repo: String
+        var owner: String // ユーザ名(login)
+        var repo: String // リポジトリ名
     }
 }
 

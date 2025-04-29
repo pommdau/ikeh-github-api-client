@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct IKEHGitHubAPIClientExampleApp: App {
+struct App: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
             ContentView()

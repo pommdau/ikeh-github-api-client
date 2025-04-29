@@ -9,7 +9,7 @@ import AppKit
 // MARK: - ログイン
 
 extension GitHubAPIClient {
-    
+        
     /// ブラウザでログインページを開く
     @MainActor
     public func openLoginPageInBrowser() async throws {
@@ -33,14 +33,18 @@ extension GitHubAPIClient {
         NSWorkspace.shared.open(url)
 #endif
     }
-    
-    /// コールバックURLの処理
-    public func handleLoginCallBackURLAndFetchAccessToken(_ url: URL) async throws -> String {
+        
+    ///  認証後のコールバックURLの情報からアクセストークンの取得を行う
+    /// - Parameter url: 認証した後のコールバックURL
+    /// - Returns: アクセストークン
+    public func recieveLoginCallBackURLAndFetchAccessToken(_ url: URL) async throws -> String {
         let sessionCode = try await extractSessionCodeFromCallbackURL(url)
         return try await fetchInitialToken(sessionCode: sessionCode)
     }
-    
-    /// コールバックURLからログインセッションID(初回認証時にのみ利用する一時的なcode)を取得
+        
+    /// コールバックURLからログインセッションIDを抽出(初回認証時にのみ利用する一時的なcode)
+    /// - Parameter url: 認証した後のコールバックURL
+    /// - Returns: ログインセッションID
     func extractSessionCodeFromCallbackURL(_ url: URL) async throws -> String {
         guard
             let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
@@ -59,8 +63,10 @@ extension GitHubAPIClient {
         return sessionCode
     }
         
-    /// 初回ログイン時のトークン取得
-    private func fetchInitialToken(sessionCode: String) async throws -> String {
+    /// アクセストークンの取得
+    /// - Parameter sessionCode: コールバックURLに含まれるセッションコード
+    /// - Returns: アクセストークン
+    func fetchInitialToken(sessionCode: String) async throws -> String {
         let request = GitHubAPIRequest.FetchInitialToken(
             clientID: clientID,
             clientSecret: clientSecret,
@@ -74,13 +80,13 @@ extension GitHubAPIClient {
 // MARK: - ログアウト
 
 extension GitHubAPIClient {
-    
     /// ログアウト(サーバ上の認証情報の削除)
+    /// - Parameter accessToken: アクセストークン
     public func logout(accessToken: String) async throws {
         let request = GitHubAPIRequest.DeleteAppAuthorization(
+            accessToken: accessToken,
             clientID: clientID,
             clientSecret: clientSecret,
-            accessToken: accessToken
         )
         _ = try await self.performRequest(with: request)
     }

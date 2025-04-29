@@ -44,7 +44,7 @@ struct LoginView: View {
         .onOpenURL { url in
             Task {
                 do {
-                    let accessToken = try await gitHubAPIClient.handleLoginCallBackURLAndFetchAccessToken(url)
+                    let accessToken = try await gitHubAPIClient.recieveLoginCallBackURLAndFetchAccessToken(url)
                     accessTokenForDisplay = accessToken
                     await tokenStore.setAccessToken(accessToken)
                 } catch {

@@ -8,6 +8,7 @@
 import SwiftUI
 
 final actor TokenStore {
+    
     static let shared = TokenStore()
     
     /// 実際はkeychain等セキュアな保存を推奨

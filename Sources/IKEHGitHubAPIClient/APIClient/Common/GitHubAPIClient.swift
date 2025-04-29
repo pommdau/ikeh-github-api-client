@@ -1,7 +1,7 @@
 import Foundation
 
 /// GitHubAPIのクライアント
-public final actor GitHubAPIClient {
+public final actor GitHubAPIClient: GitHubAPIClientProtocol {
     
     // MARK: - Property
     
@@ -15,7 +15,7 @@ public final actor GitHubAPIClient {
         
     // MARK: - LifeCycle
     
-    public init(clientID: String, clientSecret: String, callbackURL: URL, scope: String? = nil) {
+    public init(clientID: String, clientSecret: String, callbackURL: URL, scope: String? = nil, urlSession: URLSession = .shared) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.callbackURL = callbackURL
@@ -23,8 +23,7 @@ public final actor GitHubAPIClient {
         self.urlSession = URLSession.shared
     }
     
-    /// URLSessionのDI用 TODO: check
-    init(clientID: String, clientSecret: String, callbackURL: URL, scope: String? = nil, urlSession: URLSessionProtocol) {
+    init(clientID: String, clientSecret: String, callbackURL: URL, scope: String? = nil, urlSession: URLSessionProtocol = URLSession.shared) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.callbackURL = callbackURL

@@ -10,37 +10,43 @@ import Foundation
 
 public struct User: GitHubItem {
     
-    // MARK: - Decode Result
+    // MARK: - 検索結果から取得される値
     
     private enum CodingKeys: String, CodingKey {
         case rawID = "id"
         case login
-//        case name
+        case name
         case avatarImagePath = "avatar_url"
         case htmlPath = "html_url"
-//        case location
-//        case bio
-//        case twitterUsername = "twitter_username"
-//        case publicRepos = "public_repos"
-//        case followers
-//        case following
+        case location
+        case bio
+        case twitterUsername = "twitter_username"
+        case publicRepos = "public_repos"
+        case followers
+        case following
     }
-    
+
     public let rawID: Int
-    public var login: String
+    public var login: String // e.g. "pommdau"
+    public var name: String? // e.g. "IKEH"
     public var avatarImagePath: String
     public var htmlPath: String?  // e.g. https://github.com/apple
-    
-//    var name: String
-//    var location: String?
-//    var bio: String?
-//    var twitterUsername: String?
-//    var publicRepos: Int
-//    var followers: Int
-//    var following: Int
+    public var location: String? // e.g. "Osaka"
+    public var bio: String?
+    public var twitterUsername: String? // e.g. "ikeh1024"
+    public var publicRepos: Int?
+    public var followers: Int?
+    public var following: Int?
            
+    // MARK: - Identifiable
+    
+    /// 固有型のID
+    public var id: SwiftID<Self> { "\(rawID)" }
+    
+    // MARK: - Computed Property
+    
     public var avatarImageURL: URL? {
-        return URL(string: avatarImagePath)
+        URL(string: avatarImagePath)
     }
     
     public var htmlURL: URL? {
@@ -50,58 +56,68 @@ public struct User: GitHubItem {
         return URL(string: htmlPath)
     }
     
-//    var twitterURL: URL? {
-//        guard let twitterUsername else {
-//            return nil
-//        }
-//        return URL(string: "https://x.com/\(twitterUsername)")
-//    }
-}
-
-// MARK: - Identifiable
-
-extension User {
-    public var id: SwiftID<Self> { "\(rawID)" }
+    public var twitterURL: URL? {
+        guard let twitterUsername else {
+            return nil
+        }
+        return URL(string: "https://x.com/\(twitterUsername)")
+    }
 }
 
 // MARK: - Mock
 
 extension User {
-    enum Mock {
-        
-        static func random(count: Int) -> [User] {
-            (0..<count).map { _ in random() }
+    /// UserのMock
+    public enum Mock {
+        /// 指定した個数のUserをランダムに生成
+        /// - Parameter count: 要素数
+        /// - Returns: 指定した個数のUserの配列
+        public static func random(count: Int) -> [User] {
+            var users: [User] = []
+            while users.count < count {
+                let newUser = User.Mock.random()
+                // IDの被りがないかをチェック
+                if users.map({ $0.id }).contains(newUser.id) {
+                    continue
+                }
+                users.append(newUser)
+            }
+            
+            return users
         }
         
-        static func random() -> User {
-            let randomID = Int.random(in: 1000...9999)
+        /// Userをランダムに生成
+        /// - Returns: User
+        public static func random() -> User {
+            let randomID = Int.random(in: 1...Int.max)
             let randomLogin = ["alice", "bob", "charlie", "dave", "eve"].randomElement() ?? ""
-//            let randomName = ["Alice Johnson", "Bob Smith", "Charlie Brown", "Dave Williams", "Eve Adams"].randomElement() ?? ""
-//            let randomLocation = ["New York", "San Francisco", "Tokyo", "Berlin", "London"].randomElement() ?? ""
-//            let randomBio = ["iOS Developer", "Swift Enthusiast", "Open Source Contributor", "Tech Blogger", "GitHub Fan"].randomElement() ?? ""
-//            let randomTwitter = ["alice_dev", "bob_swift", "charlie_code", "dave_ios", "eve_git"].randomElement()
-//            let randomRepos = Int.random(in: 1...100)
-//            let randomFollowers = Int.random(in: 0...5000)
-//            let randomFollowing = Int.random(in: 0...500)
+            let randomName = ["Alice Johnson", "Bob Smith", "Charlie Brown", "Dave Williams", "Eve Adams"].randomElement() ?? ""
+            let randomLocation = ["New York", "San Francisco", "Tokyo", "Berlin", "London"].randomElement() ?? ""
+            let randomBio = ["iOS Developer", "Swift Enthusiast", "Open Source Contributor", "Tech Blogger", "GitHub Fan"].randomElement() ?? ""
+            let randomTwitter = ["alice_dev", "bob_swift", "charlie_code", "dave_ios", "eve_git"].randomElement()
             
             return User(
                 rawID: randomID,
                 login: randomLogin,
-//                name: randomName,
+                name: randomName,
                 avatarImagePath: "https://avatars.githubusercontent.com/u/29433103?v=4",
-                htmlPath: "https://github.com/pommdau"
-//                location: randomLocation,
-//                bio: randomBio,
-//                twitterUsername: randomTwitter,
-//                publicRepos: randomRepos,
-//                followers: randomFollowers,
-//                following: randomFollowing
+                htmlPath: "https://github.com/pommdau",
+                location: randomLocation,
+                bio: randomBio,
+                twitterUsername: randomTwitter,
+                publicRepos: Int.random(in: 1...1000),
+                followers: Int.random(in: 0...5000),
+                following: Int.random(in: 0...5000)
             )
         }
     }
 }
 
-/*
+// MARK: - JSONString
+
+extension User.Mock {
+    enum JSONString {
+        static let pommdau = #"""
  {
    "login":"pommdau",
    "id":29433103,
@@ -137,5 +153,6 @@ extension User {
    "created_at":"2017-06-14T13:32:48Z",
    "updated_at":"2024-12-21T12:20:29Z"
  }
- */
-
+"""#
+    }
+}
