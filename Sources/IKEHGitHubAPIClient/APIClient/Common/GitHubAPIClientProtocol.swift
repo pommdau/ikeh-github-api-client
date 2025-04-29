@@ -5,6 +5,7 @@
 //  Created by HIROKI IKEUCHI on 2025/04/14.
 //
 
+/*
 import Foundation
 
 protocol GitHubAPIClientProtocol: Actor {
@@ -66,3 +67,4 @@ protocol GitHubAPIClientProtocol: Actor {
     func starRepo(accessToken: String, ownerName: String, repoName: String) async throws
     func unstarRepo(accessToken: String, ownerName: String, repoName: String) async throws
 }
+*/

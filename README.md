@@ -1,3 +1,47 @@
 # ikeh-github-api-client
 
-- テストメッセージの日英統一
+## 概要
+- GitHub APIを利用するためのクライアント
+- 自身が利用する一部の機能のみの実装となっています
+
+## 使用例
+
+- 基本的な使用例は以下の通りです
+
+```swift
+let gitHubAPIClient = GitHubAPIClient(
+    clientID: GitHubAPICredentials.clientID,
+    clientSecret: GitHubAPICredentials.clientSecret,
+    callbackURL: URL(string: "ikeh-github-api-client-example://callback")!,
+    scope: "repo",
+    urlSession: URLSession.shared
+)
+let response = try await gitHubAPIClient.searchRepos(searchText: "SwiftUI")
+for repo in response.items {
+    print("\(repo.fullName)")
+}
+```
+
+- またスターをつけるなど認証を必要とする場合、準備として個人のGitHubのOAuth Appを作成する必要があります
+    - 参考: [iOSアプリでGitHubAPIのOAuth認証を行う](https://zenn.dev/ikeh1024/articles/dd5678087362c4)
+- その後下記の通り認証を行いアクセストークンを取得し、このアクセストークンをメソッドに引数として渡してください
+
+```swift
+// 認証画面を開く
+try await gitHubAPIClient.openLoginPageInBrowser()
+
+// コールバックURLの受取処理
+.onOpenURL { url in
+    Task {
+        do {
+            let accessToken = try await gitHubAPIClient.recieveLoginCallBackURLAndFetchAccessToken(url)
+            // Save Token
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
+```
+
+- その他詳細に関してはサンプルリポジトリを参照ください
+    - https://github.com/pommdau/ikeh-github-api-client/tree/main/PackageExample

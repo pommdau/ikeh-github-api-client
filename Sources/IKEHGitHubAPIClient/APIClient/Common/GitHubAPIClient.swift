@@ -1,7 +1,7 @@
 import Foundation
 
 /// GitHubAPIのクライアント
-public final actor GitHubAPIClient: GitHubAPIClientProtocol {
+public final actor GitHubAPIClient {
     
     // MARK: - Property
     
@@ -15,6 +15,13 @@ public final actor GitHubAPIClient: GitHubAPIClientProtocol {
         
     // MARK: - LifeCycle
     
+    /// initializer
+    /// - Parameters:
+    ///   - clientID: GitHub APIのclientID
+    ///   - clientSecret: GitHub APIのclientSecret
+    ///   - callbackURL: GitHub APIのコールバックURL
+    ///   - scope: APIの権限のスコープ
+    ///   - urlSession: URLSession
     public init(clientID: String, clientSecret: String, callbackURL: URL, scope: String? = nil, urlSession: URLSession = .shared) {
         self.clientID = clientID
         self.clientSecret = clientSecret

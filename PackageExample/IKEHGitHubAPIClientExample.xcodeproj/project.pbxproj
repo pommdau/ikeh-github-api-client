@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		DA553A512DAF3F8A008A42D1 /* IKEHGitHubAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = DA553A502DAF3F8A008A42D1 /* IKEHGitHubAPIClient */; };
 		DAAC07942DAF7470001FC68F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DAAC07932DAF7470001FC68F /* .swiftlint.yml */; };
+		DAC3E21D2DC107BE00E8D1F6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAC3E21C2DC107B900E8D1F6 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DAAC07932DAF7470001FC68F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		DAB474812DAF3EF600789857 /* IKEHGitHubAPIClientExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IKEHGitHubAPIClientExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAC3E21C2DC107B900E8D1F6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -52,6 +54,7 @@
 		DAB474782DAF3EF600789857 = {
 			isa = PBXGroup;
 			children = (
+				DAC3E21C2DC107B900E8D1F6 /* README.md */,
 				DAB474832DAF3EF600789857 /* IKEHGitHubAPIClientExample */,
 				DAB474822DAF3EF600789857 /* Products */,
 				DAAC07932DAF7470001FC68F /* .swiftlint.yml */,
@@ -135,6 +138,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAC3E21D2DC107BE00E8D1F6 /* README.md in Resources */,
 				DAAC07942DAF7470001FC68F /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
