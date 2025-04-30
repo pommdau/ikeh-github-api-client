@@ -31,7 +31,7 @@ extension GitHubAPIRequest.FetchStarredRepos: GitHubAPIRequestProtocol {
     }
     
     var baseURL: URL? {
-        URL(string: "https://api.github.com")
+        GitHubAPIEndpoints.apiBaseURL
     }
     
     var path: String {

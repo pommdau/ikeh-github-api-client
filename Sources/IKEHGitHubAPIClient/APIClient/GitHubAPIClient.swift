@@ -5,10 +5,15 @@ public final actor GitHubAPIClient {
     
     // MARK: - Property
     
+    /// GitHub APIのclientID
     let clientID: String
+    /// GitHub APIのclientSecret
     let clientSecret: String
+    /// GitHub APIのコールバックURL
     let callbackURL: URL
+    /// APIの権限のスコープ
     let scope: String?
+    /// URLSession
     let urlSession: URLSessionProtocol
     
     private(set) var lastLoginStateID: String = "" // 最後のログインセッションID
