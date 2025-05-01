@@ -27,7 +27,7 @@ for repo in response.items {
 - その後下記の通り認証を行いアクセストークンを取得し、このアクセストークンをメソッドに引数として渡してください
 
 ```swift
-// 認証画面を開く
+// 認証画面をブラウザで開く
 try await gitHubAPIClient.openLoginPageInBrowser()
 
 // コールバックURLの受取処理
@@ -35,7 +35,7 @@ try await gitHubAPIClient.openLoginPageInBrowser()
     Task {
         do {
             let accessToken = try await gitHubAPIClient.recieveLoginCallBackURLAndFetchAccessToken(url)
-            // Save Token
+            // アクセストークンをKeychain等に保存
         } catch {
             print(error.localizedDescription)
         }
