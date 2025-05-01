@@ -12,11 +12,11 @@
 let gitHubAPIClient = GitHubAPIClient(
     clientID: GitHubAPICredentials.clientID,
     clientSecret: GitHubAPICredentials.clientSecret,
-    callbackURL: URL(string: "ikeh-github-api-client-example://callback")!,
+    callbackURL: URL(string: "your-app-scheme://callback")!,
     scope: "repo",
     urlSession: URLSession.shared
 )
-let response = try await gitHubAPIClient.searchRepos(searchText: "SwiftUI")
+let response = try await gitHubAPIClient.searchRepos(searchText: "SwiftUI", accessToken: nil)
 for repo in response.items {
     print("\(repo.fullName)")
 }
