@@ -60,6 +60,44 @@ public struct LoginUser: GitHubItem {
         }
         return URL(string: "https://x.com/\(twitterUsername)")
     }
+    
+    // swiftlint:disable function_default_parameter_at_end
+    public init(
+        rawID: Int,
+        login: String,
+        avatarURL: String,
+        url: String,
+        htmlURL: String,
+        name: String? = nil,
+        location: String? = nil,
+        email: String? = nil,
+        bio: String? = nil,
+        twitterUsername: String? = nil,
+        publicRepos: Int,
+        publicGists: Int,
+        followers: Int,
+        following: Int,
+        createdAt: String,
+        updatedAt: String
+    ) {
+        self.rawID = rawID
+        self.login = login
+        self.avatarURL = avatarURL
+        self.url = url
+        self.htmlURL = htmlURL
+        self.name = name
+        self.location = location
+        self.email = email
+        self.bio = bio
+        self.twitterUsername = twitterUsername
+        self.publicRepos = publicRepos
+        self.publicGists = publicGists
+        self.followers = followers
+        self.following = following
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
+    // swiftlint:enable function_default_parameter_at_end
 }
 
 // MARK: - Mock

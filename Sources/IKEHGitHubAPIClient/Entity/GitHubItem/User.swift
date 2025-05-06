@@ -62,6 +62,36 @@ public struct User: GitHubItem {
         }
         return URL(string: "https://x.com/\(twitterUsername)")
     }
+    
+    // MARK: - LifeCycle
+    
+    // swiftlint:disable function_default_parameter_at_end
+    public init(
+        rawID: Int,
+        login: String,
+        name: String? = nil,
+        avatarImagePath: String,
+        htmlPath: String? = nil,
+        location: String? = nil,
+        bio: String? = nil,
+        twitterUsername: String? = nil,
+        publicRepos: Int? = nil,
+        followers: Int? = nil,
+        following: Int? = nil
+    ) {
+        self.rawID = rawID
+        self.login = login
+        self.name = name
+        self.avatarImagePath = avatarImagePath
+        self.htmlPath = htmlPath
+        self.location = location
+        self.bio = bio
+        self.twitterUsername = twitterUsername
+        self.publicRepos = publicRepos
+        self.followers = followers
+        self.following = following
+    }
+    // swiftlint:enable function_default_parameter_at_end
 }
 
 // MARK: - Mock
