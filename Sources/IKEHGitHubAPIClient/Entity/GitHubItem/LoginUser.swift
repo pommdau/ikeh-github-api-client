@@ -12,7 +12,7 @@ public struct LoginUser: GitHubItem {
     // MARK: - 検索結果から取得される値
     
     enum CodingKeys: String, CodingKey {
-        case rawID = "id"
+        case id
         case login
         case avatarURL = "avatar_url"
         case url
@@ -30,7 +30,7 @@ public struct LoginUser: GitHubItem {
         case updatedAt = "updated_at"
     }
             
-    public let rawID: Int
+    public let id: Int
     public var login: String // e.g. "pommdau"
     public var avatarURL: String
     public var url: String
@@ -47,11 +47,6 @@ public struct LoginUser: GitHubItem {
     public var createdAt: String
     public var updatedAt: String
     
-    // MARK: - Identifiable
-    
-    /// 固有型のID
-    public var id: SwiftID<Self> { "\(rawID)" }
-    
     // MARK: - Computed Property
     
     public var twitterURL: URL? {
@@ -63,7 +58,7 @@ public struct LoginUser: GitHubItem {
     
     // swiftlint:disable function_default_parameter_at_end
     public init(
-        rawID: Int,
+        id: Int,
         login: String,
         avatarURL: String,
         url: String,
@@ -80,7 +75,7 @@ public struct LoginUser: GitHubItem {
         createdAt: String,
         updatedAt: String
     ) {
-        self.rawID = rawID
+        self.id = id
         self.login = login
         self.avatarURL = avatarURL
         self.url = url
@@ -108,7 +103,7 @@ extension LoginUser {
     public enum Mock {
         /// LoginUserのMock: ikeh
         public static let ikeh: LoginUser = .init(
-            rawID: 29433103,
+            id: 29433103,
             login: "pommdau",
             avatarURL: "https://avatars.githubusercontent.com/u/29433103?v=4",
             url: "https://api.github.com/users/pommdau",

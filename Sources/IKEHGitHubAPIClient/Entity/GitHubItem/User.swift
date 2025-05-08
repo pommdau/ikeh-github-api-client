@@ -13,7 +13,7 @@ public struct User: GitHubItem {
     // MARK: - 検索結果から取得される値
     
     private enum CodingKeys: String, CodingKey {
-        case rawID = "id"
+        case id
         case login
         case name
         case avatarImagePath = "avatar_url"
@@ -26,7 +26,7 @@ public struct User: GitHubItem {
         case following
     }
 
-    public let rawID: Int
+    public let id: Int
     public var login: String // e.g. "pommdau"
     public var name: String? // e.g. "IKEH"
     public var avatarImagePath: String
@@ -37,12 +37,7 @@ public struct User: GitHubItem {
     public var publicRepos: Int?
     public var followers: Int?
     public var following: Int?
-           
-    // MARK: - Identifiable
-    
-    /// 固有型のID
-    public var id: SwiftID<Self> { "\(rawID)" }
-    
+
     // MARK: - Computed Property
     
     public var avatarImageURL: URL? {
@@ -67,7 +62,7 @@ public struct User: GitHubItem {
     
     // swiftlint:disable function_default_parameter_at_end
     public init(
-        rawID: Int,
+        id: Int,
         login: String,
         name: String? = nil,
         avatarImagePath: String,
@@ -79,7 +74,7 @@ public struct User: GitHubItem {
         followers: Int? = nil,
         following: Int? = nil
     ) {
-        self.rawID = rawID
+        self.id = id
         self.login = login
         self.name = name
         self.avatarImagePath = avatarImagePath
@@ -127,7 +122,7 @@ extension User {
             let randomTwitter = ["alice_dev", "bob_swift", "charlie_code", "dave_ios", "eve_git"].randomElement()
             
             return User(
-                rawID: randomID,
+                id: randomID,
                 login: randomLogin,
                 name: randomName,
                 avatarImagePath: "https://avatars.githubusercontent.com/u/29433103?v=4",

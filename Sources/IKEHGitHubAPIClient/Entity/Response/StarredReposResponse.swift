@@ -17,7 +17,7 @@ public struct StarredRepo: GitHubItem {
     
     // MARK: - Identifiable
     
-    public var id: SwiftID<Self> { "\(repo.id)" }        
+    public var id: Int { repo.id }        
 }
 
 public struct StarredReposResponse: Sendable, PagingResponse {
