@@ -9,7 +9,6 @@ import Foundation
 import XCTest
 @testable import IKEHGitHubAPIClient
 
-/// ユニットテスト用のファクトリメソッド
 extension GitHubAPIClient {
     /// ユニットテスト用のファクトリメソッド
     static func create(urlSession: URLSessionProtocol = URLSessionStub()) throws -> GitHubAPIClient {

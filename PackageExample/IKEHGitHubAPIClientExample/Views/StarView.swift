@@ -62,7 +62,7 @@ extension StarView {
                     }
                 }
             }
-            Button("open in bo") {
+            Button("Open in Browser") {
                 guard let url = URL(string: "https://github.com/\(ownerName)/\(repoName)") else {
                     return
                 }
@@ -95,8 +95,8 @@ extension StarView {
                 do {
                     let result = try await gitHubAPIClient.checkIsRepoStarred(
                         accessToken: tokenStore.accessToken,
-                        ownerName: repo.owner.login,
-                        repoName: repo.name
+                        owner: repo.owner.login,
+                        repo: repo.name
                     )
                     print("\(result ? "Starred" : "Not Starred")")
                 } catch {
@@ -117,8 +117,8 @@ extension StarView {
                 do {
                     try await gitHubAPIClient.starRepo(
                         accessToken: tokenStore.accessToken,
-                        ownerName: repo.owner.login,
-                        repoName: repo.name
+                        owner: repo.owner.login,
+                        repo: repo.name
                     )
                 } catch {
                     print(error.localizedDescription)
@@ -137,8 +137,8 @@ extension StarView {
                 do {
                     try await gitHubAPIClient.unstarRepo(
                         accessToken: tokenStore.accessToken,
-                        ownerName: repo.owner.login,
-                        repoName: repo.name
+                        owner: repo.owner.login,
+                        repo: repo.name
                     )
                 } catch {
                     print(error.localizedDescription)

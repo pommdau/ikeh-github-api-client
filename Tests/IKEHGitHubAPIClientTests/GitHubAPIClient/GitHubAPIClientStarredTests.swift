@@ -1,16 +1,9 @@
-//
-//  File.swift
-//  IKEHGitHubAPIClient
-//
-//  Created by HIROKI IKEUCHI on 2025/04/22.
-//
-
 import Foundation
 import XCTest
 import HTTPTypes
 @testable import IKEHGitHubAPIClient
 
-final class GitHubAPIClientStarred: XCTestCase {
+final class GitHubAPIClientStarredTests: XCTestCase {
     
     // MARK: - Property
     
@@ -32,7 +25,7 @@ final class GitHubAPIClientStarred: XCTestCase {
 
 // MARK: - ユーザのスターしたリポジトリの一覧の取得のテスト
 
-extension GitHubAPIClientStarred {
+extension GitHubAPIClientStarredTests {
     
     /// ユーザのスターしたリポジトリの一覧の取得: 成功
     func testStarredReposSuccess() async throws {
@@ -74,7 +67,7 @@ extension GitHubAPIClientStarred {
 
 // MARK: - 指定したリポジトリのスター状態取得のテスト
 
-extension GitHubAPIClientStarred {
+extension GitHubAPIClientStarredTests {
     
     /// ユーザのスターしたリポジトリの一覧の取得: 成功(スター済み)
     func testCheckIsRepoStarredSuccessWhenStarred() async throws {
@@ -85,7 +78,7 @@ extension GitHubAPIClientStarred {
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
-        let response = try await sut.checkIsRepoStarred(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        let response = try await sut.checkIsRepoStarred(accessToken: "accessToken", owner: "owner", repo: "repo")
         
         // MARK: Then
         XCTAssertTrue(response)
@@ -98,7 +91,7 @@ extension GitHubAPIClientStarred {
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
-        let response = try await sut.checkIsRepoStarred(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        let response = try await sut.checkIsRepoStarred(accessToken: "accessToken", owner: "owner", repo: "repo")
         
         // MARK: Then
         XCTAssertFalse(response)
@@ -112,7 +105,7 @@ extension GitHubAPIClientStarred {
         
         // MARK: When
         do {
-            _ = try await sut.checkIsRepoStarred(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+            _ = try await sut.checkIsRepoStarred(accessToken: "accessToken", owner: "owner", repo: "repo")
             XCTFail("期待するエラーが検出されませんでした")
         } catch {
             // MARK: Then
@@ -127,7 +120,7 @@ extension GitHubAPIClientStarred {
 
 // MARK: - リポジトリをスター済みにする機能のテスト
 
-extension GitHubAPIClientStarred {
+extension GitHubAPIClientStarredTests {
     
     /// リポジトリをスター済みにする: 成功
     func testStarRepoSuccess() async throws {
@@ -138,7 +131,7 @@ extension GitHubAPIClientStarred {
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
-        try await sut.starRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        try await sut.starRepo(accessToken: "accessToken", owner: "owner", repo: "repo")
         
         // MARK: Then
         // エラーが投げられていなければOK
@@ -151,7 +144,7 @@ extension GitHubAPIClientStarred {
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
-        try await sut.starRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        try await sut.starRepo(accessToken: "accessToken", owner: "owner", repo: "repo")
         
         // MARK: Then
         // エラーが投げられていなければOK
@@ -165,7 +158,7 @@ extension GitHubAPIClientStarred {
         
         // MARK: When
         do {
-            try await sut.starRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+            try await sut.starRepo(accessToken: "accessToken", owner: "owner", repo: "repo")
             XCTFail("期待するエラーが検出されませんでした")
         } catch {
             // MARK: Then
@@ -180,7 +173,7 @@ extension GitHubAPIClientStarred {
 
 // MARK: - リポジトリを未スターにする機能のテスト
 
-extension GitHubAPIClientStarred {
+extension GitHubAPIClientStarredTests {
     
     /// リポジトリを未スターにする: 成功
     func testUntarRepoSuccess() async throws {
@@ -191,7 +184,7 @@ extension GitHubAPIClientStarred {
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
-        try await sut.unstarRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        try await sut.unstarRepo(accessToken: "accessToken", owner: "owner", repo: "repo")
         
         // MARK: Then
         // エラーが投げられていなければOK
@@ -204,7 +197,7 @@ extension GitHubAPIClientStarred {
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
-        try await sut.unstarRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+        try await sut.unstarRepo(accessToken: "accessToken", owner: "owner", repo: "repo")
         
         // MARK: Then
         // エラーが投げられていなければOK
@@ -218,7 +211,7 @@ extension GitHubAPIClientStarred {
         
         // MARK: When
         do {
-            try await sut.unstarRepo(accessToken: "accessToken", ownerName: "ownerName", repoName: "repoName")
+            try await sut.unstarRepo(accessToken: "accessToken", owner: "owner", repo: "repo")
             XCTFail("期待するエラーが検出されませんでした")
         } catch {
             // MARK: Then
