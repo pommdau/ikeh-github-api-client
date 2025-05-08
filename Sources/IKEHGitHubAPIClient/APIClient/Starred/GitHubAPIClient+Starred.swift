@@ -43,19 +43,19 @@ extension GitHubAPIClient {
     /// 指定したリポジトリのスター状態取得
     /// - Parameters:
     ///   - accessToken: アクセストークン
-    ///   - ownerName: リポジトリのオーナ名
-    ///   - repoName: リポジトリ名
+    ///   - owner: リポジトリのオーナ名
+    ///   - repo: リポジトリ名
     /// - Returns: スター済みならTrue
     /// - SeeAlso: [GitHub Docs – Check if a repository is starred by the authenticated user](https://docs.github.com/ja/rest/activity/starring?apiVersion=2022-11-28#check-if-a-repository-is-starred-by-the-authenticated-user)
     public func checkIsRepoStarred(
         accessToken: String,
-        ownerName: String,
-        repoName: String
+        owner: String,
+        repo: String
     ) async throws -> Bool {
         let request = GitHubAPIRequest.CheckIsRepoStarredRequest(
             accessToken: accessToken,
-            ownerName: ownerName,
-            repoName: repoName
+            owner: owner,
+            repo: repo
         )
         
         do {
@@ -77,15 +77,15 @@ extension GitHubAPIClient {
     /// リポジトリをスター済みにする
     /// - Parameters:
     ///   - accessToken: アクセストークン
-    ///   - ownerName: リポジトリのオーナー名
-    ///   - repoName: リポジトリ名
+    ///   - owner: リポジトリのオーナー名
+    ///   - repo: リポジトリ名
     /// - Note: すでにスター済みの場合はTrueを返す
     /// - SeeAlso: [GitHub Docs – Star a repository for the authenticated user](https://docs.github.com/ja/rest/activity/starring?apiVersion=2022-11-28#star-a-repository-for-the-authenticated-user)
-    public func starRepo(accessToken: String, ownerName: String, repoName: String) async throws {
+    public func starRepo(accessToken: String, owner: String, repo: String) async throws {
         let request = GitHubAPIRequest.StarRepo(
             accessToken: accessToken,
-            ownerName: ownerName,
-            repoName: repoName
+            owner: owner,
+            repo: repo
         )
         do {
             try await performRequest(with: request)
@@ -105,15 +105,15 @@ extension GitHubAPIClient {
     /// リポジトリを未スター状態にする
     /// - Parameters:
     ///   - accessToken: アクセストークン
-    ///   - ownerName: リポジトリのオーナー名
-    ///   - repoName: リポジトリ名
+    ///   - owner: リポジトリのオーナー名
+    ///   - repo: リポジトリ名
     /// - Note: すでに未スター状態の場合はTrueを返す
     /// - SeeAlso: [GitHub Docs – Unstar a repository for the authenticated user](https://docs.github.com/ja/rest/activity/starring?apiVersion=2022-11-28#unstar-a-repository-for-the-authenticated-user)
-    public func unstarRepo(accessToken: String, ownerName: String, repoName: String) async throws {
+    public func unstarRepo(accessToken: String, owner: String, repo: String) async throws {
         let request = GitHubAPIRequest.UnstarRepo(
             accessToken: accessToken,
-            ownerName: ownerName,
-            repoName: repoName
+            owner: owner,
+            repo: repo
         )
         do {
             _ = try await performRequest(with: request)

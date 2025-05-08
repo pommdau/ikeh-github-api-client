@@ -6,13 +6,12 @@
 //
 
 import Foundation
-import SwiftID
 
 public struct RelationLink: Sendable {
     
     public struct Link: Identifiable, Equatable, Sendable {
         /// 固有型のID
-        public var id: SwiftID<Self>
+        public var id: String
         public var url: URL
         public var queryItems: [URLQueryItem]
     }

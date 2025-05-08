@@ -11,8 +11,8 @@ import HTTPTypes
 extension GitHubAPIRequest {
     struct UnstarRepo {
         var accessToken: String
-        var ownerName: String
-        var repoName: String
+        var owner: String
+        var repo: String
     }
 }
 
@@ -29,7 +29,7 @@ extension GitHubAPIRequest.UnstarRepo: GitHubAPIRequestProtocol {
     }
     
     var path: String {
-        "/user/starred/\(ownerName)/\(repoName)"
+        "/user/starred/\(owner)/\(repo)"
     }
     
     var queryItems: [URLQueryItem] {

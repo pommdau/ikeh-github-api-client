@@ -4,7 +4,7 @@ extension GitHubAPIClient {
     
     /// リポジトリの検索
     /// - Parameters:
-    ///   - searchText: 検索語句
+    ///   - query: 検索語句
     ///   - accessToken: アクセストークン
     ///   - sort: ソート基準: stars, forks, help-wanted-issues, updated (Default:  best match)
     ///   - order: ソート順: desc, asc (Default: desc)
@@ -13,7 +13,7 @@ extension GitHubAPIClient {
     /// - Returns: 該当するリポジトリの一覧
     /// - SeeAlso: [GitHub Docs – Search repositories](https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-repositories)
     public func searchRepos(
-        searchText: String,
+        query: String,
         accessToken: String? = nil,
         sort: String? = nil,
         order: String? = nil,
@@ -22,7 +22,7 @@ extension GitHubAPIClient {
     ) async throws -> SearchResponse<Repo> {
         let request = GitHubAPIRequest.SearchReposRequest(
             accessToken: accessToken,
-            query: searchText,
+            query: query,
             sort: sort,
             order: order,
             perPage: perPage,
@@ -67,7 +67,7 @@ extension GitHubAPIClient {
     
     /// 特定のリポジトリの取得
     /// - Parameters:
-    ///   - owner: リポジトリのオーナ
+    ///   - owner: リポジトリのオーナ名
     ///   - repo: リポジトリ名
     ///   - accessToken: アクセストークン
     /// - Returns: リポジトリの情報

@@ -41,7 +41,7 @@ extension GitHubAPIClientFetchReposTests {
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
-        let response = try await sut.searchRepos(searchText: "searchText")
+        let response = try await sut.searchRepos(query: "query")
         
         // MARK: Then
         XCTAssertEqual(response.items, testRepos)
@@ -56,7 +56,7 @@ extension GitHubAPIClientFetchReposTests {
         // MARK: When
         do {
             _ = try await sut.searchRepos(
-                searchText: "searchText"
+                query: "query"
             )
             XCTFail("期待するエラーが検出されませんでした")
         } catch {

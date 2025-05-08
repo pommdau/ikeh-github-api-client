@@ -79,7 +79,7 @@ extension GitHubAPIClientFetchUserTests {
         sut = try .create(urlSession: urlSessionStub)
         
         // MARK: When
-        let response = try await sut.fetchUser(accessToken: "accessToken", login: "login")
+        let response = try await sut.fetchUser(accessToken: "accessToken", userName: "login")
         
         // MARK: Then
         XCTAssertEqual(response, testResponse)
@@ -93,7 +93,7 @@ extension GitHubAPIClientFetchUserTests {
         
         // MARK: When
         do {
-            _ = try await sut.fetchUser(accessToken: "accessToken", login: "login")
+            _ = try await sut.fetchUser(accessToken: "accessToken", userName: "login")
             XCTFail("期待するエラーが検出されませんでした")
         } catch {
             // MARK: Then

@@ -6,7 +6,7 @@ public struct Repo: GitHubItem {
     // MARK: - 検索結果から取得される値
     
     private enum CodingKeys: String, CodingKey {
-        case rawID = "id"
+        case id
         case name
         case fullName = "full_name"
         case owner
@@ -22,7 +22,7 @@ public struct Repo: GitHubItem {
         case updatedAt = "updated_at"
     }
     
-    public let rawID: Int
+    public let id: Int
     public var name: String  // e.g. "Tetris"
     public var fullName: String  // e.g. "dtrupenn/Tetris"
     public var owner: User
@@ -36,12 +36,7 @@ public struct Repo: GitHubItem {
     public var description: String?
     public var createdAt: String // e.g. "2015-10-23T21:15:07Z",
     public var updatedAt: String // e.g. "2025-02-02T06:17:34Z",
-        
-    // MARK: - Identifiable
-    
-    /// 固有型のID
-    public var id: SwiftID<Self> { "\(rawID)" }
-    
+            
     // MARK: - Computed Property
     
     public var htmlURL: URL? {
@@ -59,7 +54,7 @@ public struct Repo: GitHubItem {
     
     // swiftlint:disable function_default_parameter_at_end
     public init(
-        rawID: Int,
+        id: Int,
         name: String,
         fullName: String,
         owner: User,
@@ -74,7 +69,7 @@ public struct Repo: GitHubItem {
         createdAt: String,
         updatedAt: String
     ) {
-        self.rawID = rawID
+        self.id = id
         self.name = name
         self.fullName = fullName
         self.owner = owner
@@ -125,7 +120,7 @@ extension Repo {
             let randomLanguage = ["Swift", "Python", "JavaScript", "C++", "Rust"].randomElement()
             
             return Repo(
-                rawID: randomID,
+                id: randomID,
                 name: randomName,
                 fullName: "\(randomOwner.login)/\(randomName)",
                 owner: randomOwner,

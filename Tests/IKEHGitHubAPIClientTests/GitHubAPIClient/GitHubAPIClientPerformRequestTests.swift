@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  IKEHGitHubAPIClient
-//
-//  Created by HIROKI IKEUCHI on 2025/04/22.
-//
-
 import Foundation
 import XCTest
 import HTTPTypes

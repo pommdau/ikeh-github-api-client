@@ -63,7 +63,7 @@ extension SearchReposView {
                 Task {
                     do {
                         let response = try await gitHubAPIClient.searchRepos(
-                            searchText: searchReposText,
+                            query: searchReposText,
                             accessToken: tokenStore.accessToken,
                             perPage: perPage
                         )
@@ -111,7 +111,7 @@ extension SearchReposView {
                 }
                 
                 let response = try await gitHubAPIClient.searchRepos(
-                    searchText: query,
+                    query: query,
                     accessToken: tokenStore.accessToken,
                     perPage: Int(perPage),
                     page: Int(page)
