@@ -16,7 +16,7 @@ let gitHubAPIClient = GitHubAPIClient(
     scope: "repo",
     urlSession: URLSession.shared
 )
-let response = try await gitHubAPIClient.searchRepos(searchText: "SwiftUI", accessToken: nil)
+let response = try await gitHubAPIClient.searchRepos(query: "SwiftUI", accessToken: nil)
 for repo in response.items {
     print("\(repo.fullName)")
 }
