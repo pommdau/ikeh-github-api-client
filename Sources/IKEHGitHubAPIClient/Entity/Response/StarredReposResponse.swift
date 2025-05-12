@@ -7,19 +7,6 @@
 
 import Foundation
 
-public struct StarredRepo: GitHubItem {
-    private enum CodingKeys: String, CodingKey {
-        case starredAt = "starred_at"
-        case repo
-    }
-    public var starredAt: String
-    public var repo: Repo
-    
-    // MARK: - Identifiable
-    
-    public var id: Int { repo.id }        
-}
-
 public struct StarredReposResponse: Sendable, PagingResponse {
             
     public var starredRepos: [StarredRepo]
@@ -27,6 +14,17 @@ public struct StarredReposResponse: Sendable, PagingResponse {
     // MARK: PagingResponse
     
     public var relationLink: RelationLink? // ページング情報
+    
+    // MARK: - LifeCycle
+        
+    /// イニシャライザ
+    /// - Parameters:
+    ///   - starredRepos: スター済みリポジトリ
+    ///   - relationLink: ページング情報
+    public init(starredRepos: [StarredRepo], relationLink: RelationLink? = nil) {
+        self.starredRepos = starredRepos
+        self.relationLink = relationLink
+    }
 }
 
 // MARK: - Encodable

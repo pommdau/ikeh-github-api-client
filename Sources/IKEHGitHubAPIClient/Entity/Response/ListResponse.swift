@@ -12,6 +12,17 @@ public struct ListResponse<Item: GitHubItem>: Sendable, PagingResponse {
     
     // MARK: PagingResponse
     public var relationLink: RelationLink? // ページング情報
+        
+    // MARK: - LifeCycle
+        
+    /// イニシャライザ
+    /// - Parameters:
+    ///   - items: 項目
+    ///   - relationLink: ページング情報
+    public init(items: [Item], relationLink: RelationLink? = nil) {
+        self.items = items
+        self.relationLink = relationLink
+    }
 }
 
 // MARK: - Encodable
