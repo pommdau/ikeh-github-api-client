@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct RelationLink: Sendable {
+public struct RelationLink: Sendable, Equatable {
+    
+    // MARK: Definition
     
     public struct Link: Identifiable, Equatable, Sendable {
         /// 固有型のID
@@ -16,10 +18,29 @@ public struct RelationLink: Sendable {
         public var queryItems: [URLQueryItem]
     }
     
+    // MARK: - Property
+    
     public var prev: Link?
     public var next: Link?
     public var last: Link?
     public var first: Link?
+    
+
+    
+    // MARK: - LifeCycle
+    
+    /// イニシャライザ
+    public init(
+        prev: Link? = nil,
+        next: Link? = nil,
+        last: Link? = nil,
+        first: Link? = nil
+    ) {
+        self.prev = prev
+        self.next = next
+        self.last = last
+        self.first = first
+    }
 }
 
 extension RelationLink {
@@ -80,27 +101,7 @@ extension RelationLink {
     }
 }
 
-// MARK: - Test用
-
-import SwiftUI
-
-#Preview {
-    Button("Action") {
-        RelationLink.test()
-    }
-}
-
-extension RelationLink {
-    static func test() {
-/// <https://api.github.com/search/repositories?q=swift&page=2>; rel="next", <https://api.github.com/search/repositories?q=swift&page=34>; rel="last"
-        let testString = """
-     <https://api.github.com/user/29433103/starred?sort=created&direction=desc&per_page=5&page=2>; rel=\"next\", <https://api.github.com/user/29433103/starred?sort=created&direction=desc&per_page=5&page=12>; rel=\"last\"
-"""
-        let relationLink = RelationLink.create(rawValue: testString)
-        print(relationLink)
-        print("Completed")
-    }
-}
+// MARK: - Mock
 
 extension RelationLink {
 
@@ -156,6 +157,8 @@ extension RelationLink {
         }()
     }
 }
+
+// MARK: - Mock.RawString
 
 extension RelationLink.Mock {
     enum RawString {
