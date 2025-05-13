@@ -16,6 +16,13 @@ public struct RelationLink: Sendable, Equatable {
         public var id: String
         public var url: URL
         public var queryItems: [URLQueryItem]
+        
+        /// イニシャライザ
+        public init(id: String, url: URL, queryItems: [URLQueryItem]) {
+            self.id = id
+            self.url = url
+            self.queryItems = queryItems
+        }
     }
     
     // MARK: - Property
@@ -24,9 +31,7 @@ public struct RelationLink: Sendable, Equatable {
     public var next: Link?
     public var last: Link?
     public var first: Link?
-    
-
-    
+        
     // MARK: - LifeCycle
     
     /// イニシャライザ
@@ -105,8 +110,10 @@ extension RelationLink {
 
 extension RelationLink {
 
-    enum Mock {
-        static let searchReposResponse: RelationLink = {
+    /// RelationLinkのMock
+    public enum Mock {
+        /// RelationLinkのMock: searchReposResponse
+        public static let searchReposResponse: RelationLink = {
             guard let nextLinkURL = URL(string: "https://api.github.com/search/repositories?q=SwiftUI&per_page=10&page=2"),
                   let lastLinkURL = URL(string: "https://api.github.com/search/repositories?q=SwiftUI&per_page=10&page=100")
             else {
@@ -130,7 +137,8 @@ extension RelationLink {
             )
         }()
         
-        static let fetchStarredReposResponse: RelationLink = {
+        /// RelationLinkのMock: fetchStarredReposResponse
+        public static let fetchStarredReposResponse: RelationLink = {
             guard let nextLinkURL = URL(string: "https://api.github.com/user/29433103/starred?sort=created&direction=desc&per_page=5&page=2"),
                   let lastLinkURL = URL(string: "https://api.github.com/user/29433103/starred?sort=created&direction=desc&per_page=5&page=12")
             else {
