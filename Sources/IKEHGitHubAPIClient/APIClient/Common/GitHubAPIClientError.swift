@@ -33,7 +33,7 @@ public enum GitHubAPIClientError: Error {
 }
 
 /// 型判定のためのUtils
-/// 参考: https://qiita.com/kntkymt/items/b73f74c29fd4e399b6b7
+/// - SeeAlso: [associated values抜きでのenumの比較をスマートにしたい #Swift - Qiita](https://qiita.com/kntkymt/items/b73f74c29fd4e399b6b7)
 extension GitHubAPIClientError {
     var isLoginError: Bool {
         if case .loginError = self {
