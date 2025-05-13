@@ -12,4 +12,3 @@ enum GitHubAPICredentials {
     static let clientSecret = "yout-client-secret"
 }
 ```
-
