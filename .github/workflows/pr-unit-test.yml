@@ -21,11 +21,12 @@ jobs:
       - name: Build
         run: swift build
         env:
-          SKIP_SWIFTLINT: true
+          # ubuntu上でSwiftLintPluginsは利用できないため
+          IGNORE_SWIFTLINT_PLUGINS: true
       - name: Run tests
         run: swift test
         env:
-          SKIP_SWIFTLINT: true
+          IGNORE_SWIFTLINT_PLUGINS: true
 
 #name: Unit Tests
 #

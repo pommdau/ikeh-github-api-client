@@ -52,7 +52,7 @@ var swiftSettings: [SwiftSetting] {
 }
 
 var swiftLintPlugins: [Target.PluginUsage] {
-    if Environment.skipSwiftLint {
+    if Environment.ignoreSwiftLintPlugins {
         return []
     }
     return [
@@ -65,9 +65,7 @@ enum Environment {
     static func get(_ key: String) -> String? {
         return ProcessInfo.processInfo.environment[key]
     }
-    static var skipSwiftLint: Bool {
-        Self.get("SKIP_SWIFTLINT") == "true"
+    static var ignoreSwiftLintPlugins: Bool {
+        Self.get("IGNORE_SWIFTLINT_PLUGINS") == "true"
     }
 }
-
-
