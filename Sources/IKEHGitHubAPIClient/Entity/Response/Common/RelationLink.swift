@@ -24,9 +24,7 @@ public struct RelationLink: Sendable, Equatable {
     public var next: Link?
     public var last: Link?
     public var first: Link?
-    
-
-    
+        
     // MARK: - LifeCycle
     
     /// イニシャライザ
