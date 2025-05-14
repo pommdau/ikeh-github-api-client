@@ -3,65 +3,21 @@
 name: Run Unit Tests
 
 on:
-  pull_request:
+    pull_request:
     branches: [ main ]
-  workflow_dispatch:    # 手動実行を有効化
+    workflow_dispatch:    # 手動実行を有効化
 
 jobs:
-  build:
+    build:
     name: Run Unit Tests
     runs-on: ubuntu-latest
     steps:
-      # refs: [swift-actions/setup-swift](https://github.com/swift-actions/setup-swift)
-      - uses: swift-actions/setup-swift@v2 # 最新のSwiftで実行
-      - name: Get swift version
-        run: swift --version
-
-      - uses: actions/checkout@v4
-      - name: Build
-        run: swift build
-        env:
-          # ubuntu上でSwiftLintPluginsは利用できないため
-          IGNORE_SWIFTLINT_PLUGINS: true
-      - name: Run tests
-        run: swift test
-        env:
-          IGNORE_SWIFTLINT_PLUGINS: true
-
-#name: Unit Tests
-#
-#on:
-#  pull_request:
-#    branches: [ main ]
-#  workflow_dispatch:    # 手動実行を有効化
-#
-#jobs:
-#  test:
-#    name: Run Unit Tests
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: Set up Xcode
-#        uses: maxim-lobanov/setup-xcode@v1
-#        with:
-#          xcode-version: latest  # 例: '15.3' に固定も可
-#
-#      - name: Resolve Swift Package Dependencies
-#        run: swift package resolve
-#
-#      - name: Run Tests
-#        run: |
-#          xcodebuild test \
-#            -scheme GitHubRepositorySearch \
-#            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
-#            -resultBundlePath TestResults \
-#            | xcpretty && exit ${PIPESTATUS[0]}
-#
-#      - name: Upload Test Results (Optional)
-#        if: always()
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: test-results
-#          path: TestResults
+        # refs: [swift-actions/setup-swift](https://github.com/swift-actions/setup-swift)
+        - uses: swift-actions/setup-swift@v2 # 最新のSwiftで実行
+            - name: Get swift version
+            run: swift --version
+        - uses: actions/checkout@v4
+        - name: Build
+            run: swift build
+        - name: Run UnitTests
+            run: swift test
