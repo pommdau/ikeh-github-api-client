@@ -24,6 +24,8 @@ jobs:
           SKIP_SWIFTLINT: true
       - name: Run tests
         run: swift test
+        env:
+          SKIP_SWIFTLINT: true
 
 #name: Unit Tests
 #
