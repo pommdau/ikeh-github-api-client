@@ -199,3 +199,6 @@ extension GitHubAPIClientAuthorizationTests {
         XCTFail("期待するエラーが検出されませんでした")
     }
 }
+
+
+
