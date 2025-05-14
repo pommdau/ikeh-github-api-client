@@ -36,6 +36,7 @@ let package = Package(
         .testTarget(
             name: "IKEHGitHubAPIClientTests",
             dependencies: ["IKEHGitHubAPIClient"],
+            swiftSettings: swiftSettings,
             plugins: swiftLintPlugins,
         ),
     ]
@@ -51,20 +52,22 @@ var swiftSettings: [SwiftSetting] {
 }
 
 var swiftLintPlugins: [Target.PluginUsage] {
-    guard Environment.enableSwiftLint else {
+    if Environment.skipSwiftLint {
         return []
     }
     return [
-        .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLint")
+        .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
     ]
 }
 
 /// .github/workflows/swiftlint.yamlのenvで指定する
 enum Environment {
     static func get(_ key: String) -> String? {
-        ProcessInfo.processInfo.environment[key]
+        return ProcessInfo.processInfo.environment[key]
     }
-    static var enableSwiftLint: Bool {
-        Self.get("SWIFTLINT") == "true"
+    static var skipSwiftLint: Bool {
+        Self.get("SKIP_SWIFTLINT") == "true"
     }
 }
+
+

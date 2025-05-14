@@ -20,8 +20,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build
         run: swift build
-#        env:
-#          SWIFTLINT: true
+        env:
+          SKIP_SWIFTLINT: true
       - name: Run tests
         run: swift test
 
