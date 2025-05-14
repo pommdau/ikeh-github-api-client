@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-# ⚠️ 環境変数を設定するために、Xcodeを閉じた状態で起動してください
+# ⚠️ 環境変数を設定するために、Xcodeを閉じた状態で本コマンドを起動してください
 # refs: https://forums.swift.org/t/swiftpm-and-swappable-libraries/43593
 
 # スクリプトが存在するディレクトリに移動

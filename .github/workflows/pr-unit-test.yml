@@ -4,7 +4,7 @@ name: Run Unit Tests
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
   workflow_dispatch:    # 手動実行を有効化
 
 jobs:
@@ -19,9 +19,12 @@ jobs:
         run: swift --version
 
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Build
         run: swift build
 
       - name: Run UnitTests
         run: swift test
+        

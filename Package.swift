@@ -70,7 +70,8 @@ var swiftLintPlugins: [Target.PluginUsage] {
     return []
 }
 
-/// .github/workflows/swiftlint.yamlのenvで指定する
+/// GitHub上では.github/workflows/swiftlint.yamlのenvで指定する
+/// 本PackageではXcodeの起動時に引数を渡すことで指定する
 enum Environment {
     static func get(_ key: String) -> String? {
         return ProcessInfo.processInfo.environment[key]
