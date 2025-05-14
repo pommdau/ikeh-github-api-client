@@ -3,21 +3,25 @@
 name: Run Unit Tests
 
 on:
-    pull_request:
+  pull_request:
     branches: [ main ]
-    workflow_dispatch:    # 手動実行を有効化
+  workflow_dispatch:    # 手動実行を有効化
 
 jobs:
-    build:
+  build:
     name: Run Unit Tests
     runs-on: ubuntu-latest
     steps:
-        # refs: [swift-actions/setup-swift](https://github.com/swift-actions/setup-swift)
-        - uses: swift-actions/setup-swift@v2 # 最新のSwiftで実行
-            - name: Get swift version
-            run: swift --version
-        - uses: actions/checkout@v4
-        - name: Build
-            run: swift build
-        - name: Run UnitTests
-            run: swift test
+      # refs: [swift-actions/setup-swift](https://github.com/swift-actions/setup-swift)
+      - uses: swift-actions/setup-swift@v2
+
+      - name: Get swift version
+        run: swift --version
+
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: swift build
+
+      - name: Run UnitTests
+        run: swift test
