@@ -20,6 +20,4 @@ extension GitHubAPIClient {
             urlSession: urlSession
         )
     }
-    
-    
 }
