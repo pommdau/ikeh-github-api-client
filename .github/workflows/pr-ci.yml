@@ -57,4 +57,4 @@ jobs:
 
       - name: SwiftLint(PackageExample)
         run: |
-          swiftlint --config ./.swiftlint.yml --reporter github-actions-logging --strict --path PackageExample
+          swiftlint --config ./PackageExample/.swiftlint.yml --reporter github-actions-logging --strict --path PackageExample
