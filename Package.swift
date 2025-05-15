@@ -2,7 +2,6 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 /*
  refs: refs: [Server-Side SwiftでSwiftLintのpluginとSwift buildを両立する方法](https://zenn.dev/nextbeat/articles/70b9a6b85a1ca3)
- 
  https://forums.swift.org/t/swiftpm-and-swappable-libraries/43593
  */
 
@@ -74,12 +73,6 @@ var swiftLintPlugins: [Target.PluginUsage] {
 /// 本PackageではXcodeの起動時に引数を渡すことで指定する
 enum Environment {
     static func get(_ key: String) -> String? {
-        
-        
-        
-        
-        
-        
         return ProcessInfo.processInfo.environment[key]
     }
     static var enableSwiftLintPlugins: Bool {
@@ -87,5 +80,3 @@ enum Environment {
         Self.get("ENABLE_SWIFTLINT_PLUGINS") == "true"
     }
 }
-
-
