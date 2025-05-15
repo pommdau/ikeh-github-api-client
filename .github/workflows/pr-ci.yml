@@ -51,6 +51,10 @@ jobs:
         with:
           fetch-depth: 1
   
-      - name: SwiftLint
+      - name: SwiftLint(Package)
         run: |
           swiftlint --config ./.swiftlint.yml --reporter github-actions-logging --strict
+
+      - name: SwiftLint(PackageExample)
+        run: |
+          swiftlint --config ./.swiftlint.yml --reporter github-actions-logging --strict --path PackageExample
