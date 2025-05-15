@@ -5,5 +5,5 @@ included:
   - Sources
   - Tests
 
-excluded
+excluded:
   - Package.swift
