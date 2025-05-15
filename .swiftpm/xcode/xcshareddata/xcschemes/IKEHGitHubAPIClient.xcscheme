@@ -61,13 +61,6 @@
             </ActionContent>
          </ExecutionAction>
       </PreActions>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "ENABLE_SWIFTLINT_PLUGINS"
-            value = "true"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
