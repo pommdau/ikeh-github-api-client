@@ -45,3 +45,19 @@ try await gitHubAPIClient.openLoginPageInBrowser()
 
 - その他詳細に関してはサンプルリポジトリを参照ください
     - https://github.com/pommdau/ikeh-github-api-client/tree/main/PackageExample
+
+# SwiftLint Plugins
+
+- .zshrcに下記を記載
+
+```sh
+export ENABLE_SWIFTLINT_PLUGINS=true
+```
+
+- または下記で起動
+
+```sh
+ENABLE_SWIFTLINT_PLUGINS=true open -a /Applications/Xcode-14.0.0.app .
+ENABLE_SWIFTLINT_PLUGINS=true open Package.swift -a /Applications/Xcode-14.0.0.app
+ENABLE_SWIFTLINT_PLUGINS=true open Package.swift
+```

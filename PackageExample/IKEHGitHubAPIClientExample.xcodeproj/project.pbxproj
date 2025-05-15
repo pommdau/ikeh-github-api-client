@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		DA553A512DAF3F8A008A42D1 /* IKEHGitHubAPIClient in Frameworks */ = {isa = PBXBuildFile; productRef = DA553A502DAF3F8A008A42D1 /* IKEHGitHubAPIClient */; };
-		DAAC07942DAF7470001FC68F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DAAC07932DAF7470001FC68F /* .swiftlint.yml */; };
 		DAC3E21D2DC107BE00E8D1F6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DAC3E21C2DC107B900E8D1F6 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DAAC07932DAF7470001FC68F /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		DAB474812DAF3EF600789857 /* IKEHGitHubAPIClientExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IKEHGitHubAPIClientExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAC3E21C2DC107B900E8D1F6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,7 +55,6 @@
 				DAC3E21C2DC107B900E8D1F6 /* README.md */,
 				DAB474832DAF3EF600789857 /* IKEHGitHubAPIClientExample */,
 				DAB474822DAF3EF600789857 /* Products */,
-				DAAC07932DAF7470001FC68F /* .swiftlint.yml */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,11 +76,11 @@
 				DAB4747D2DAF3EF600789857 /* Sources */,
 				DAB4747E2DAF3EF600789857 /* Frameworks */,
 				DAB4747F2DAF3EF600789857 /* Resources */,
-				DAAC06552DAF702E001FC68F /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DAB317C82DD4864C00902F98 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				DAB474832DAF3EF600789857 /* IKEHGitHubAPIClientExample */,
@@ -122,6 +119,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				DA553A4F2DAF3F8A008A42D1 /* XCLocalSwiftPackageReference "../../ikeh-github-api-client" */,
+				DAB317C62DD4864000902F98 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DAB474822DAF3EF600789857 /* Products */;
@@ -139,32 +137,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAC3E21D2DC107BE00E8D1F6 /* README.md in Resources */,
-				DAAC07942DAF7470001FC68F /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		DAAC06552DAF702E001FC68F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DAB4747D2DAF3EF600789857 /* Sources */ = {
@@ -175,6 +151,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DAB317C82DD4864C00902F98 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = DAB317C72DD4864C00902F98 /* SwiftLintBuildToolPlugin */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		DAB474A02DAF3EF800789857 /* Debug */ = {
@@ -388,10 +371,26 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		DAB317C62DD4864000902F98 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.59.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		DA553A502DAF3F8A008A42D1 /* IKEHGitHubAPIClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = IKEHGitHubAPIClient;
+		};
+		DAB317C72DD4864C00902F98 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAB317C62DD4864000902F98 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

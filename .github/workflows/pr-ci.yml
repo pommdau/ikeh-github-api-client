@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch: # 手動実行を有効化
+
+jobs:
+  
+  ############
+  # Unit Test
+  ############
+  # refs: [Swift のビルドとテスト - GitHub ドキュメント](https://docs.github.com/en/actions/use-cases-and-examples/building-and-testing/building-and-testing-swift)
+  # refs: [swift-actions/setup-swift](https://github.com/swift-actions/setup-swift)
+
+  ################
+  # 現状下記のバグがあるため一時的に停止
+  # [Error building on Linux: The process '/usr/bin/gpg' failed with exit code 2 · Issue #694 · swift-actions/setup-swift](https://github.com/swift-actions/setup-swift/issues/694)
+  ################
+#  build:
+#    name: Unit Tests
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: swift-actions/setup-swift@v2
+#        with:
+#          swift-version: "6.0"
+#
+#      - name: Get swift version
+#        run: swift --version
+#    
+#      - name: Checkout Branch
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 1
+#
+#      - name: Swift Build
+#        run: swift build
+#
+#      - name: Run UnitTests
+#        run: swift test
+        
+  ############
+  # SwiftLint
+  ############
+  # refs: [swift - How can I run swiftlint on GitHub Actions for linux? - Stack Overflow](https://stackoverflow.com/questions/72033107/how-can-i-run-swiftlint-on-github-actions-for-linux)
+  # refs: [realm/SwiftLint: A tool to enforce Swift style and conventions.](https://github.com/realm/SwiftLint)
+        
+  swiftlint:
+    name: SwiftLint
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/realm/swiftlint:latest
+
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+  
+      - name: SwiftLint(Package)
+        run: |
+          swiftlint --config ./.swiftlint.yml --reporter github-actions-logging --strict
+
+      - name: SwiftLint(PackageExample)
+        run: |
+          swiftlint --config ./PackageExample/.swiftlint.yml --reporter github-actions-logging --strict PackageExample

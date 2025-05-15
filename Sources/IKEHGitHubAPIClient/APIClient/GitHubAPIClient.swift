@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// GitHubAPIのクライアント
 public final actor GitHubAPIClient {
