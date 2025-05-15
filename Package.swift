@@ -74,6 +74,12 @@ var swiftLintPlugins: [Target.PluginUsage] {
 /// 本PackageではXcodeの起動時に引数を渡すことで指定する
 enum Environment {
     static func get(_ key: String) -> String? {
+        
+        
+        
+        
+        
+        
         return ProcessInfo.processInfo.environment[key]
     }
     static var enableSwiftLintPlugins: Bool {
@@ -81,3 +87,5 @@ enum Environment {
         Self.get("ENABLE_SWIFTLINT_PLUGINS") == "true"
     }
 }
+
+

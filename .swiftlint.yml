@@ -1,5 +1,9 @@
 parent_config: .swiftlint_common.yml
 
-# 対象外のファイル・フォルダ
-excluded:
-  - PackageExample
+
+included:
+  - Sources
+  - Tests
+
+excluded
+  - Package.swift
