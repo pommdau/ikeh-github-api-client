@@ -26,7 +26,7 @@ let package = Package(
             name: "IKEHGitHubAPIClient",
             dependencies: [
                 .product(name: "HTTPTypes", package: "swift-http-types"),
-                .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
+                .product(name: "HTTPTypesFoundation", package: "swift-http-types")
             ],
             swiftSettings: swiftSettings,
             plugins: swiftLintPlugins
@@ -44,7 +44,7 @@ let package = Package(
 
 var dependencies: [Package.Dependency] {
     var dependencies: [Package.Dependency] = [
-        .package(url: "https://github.com/apple/swift-http-types", from: "1.3.1"),
+        .package(url: "https://github.com/apple/swift-http-types", from: "1.3.1")
     ]
     if Environment.enableSwiftLintPlugins {
         dependencies.append(
@@ -56,7 +56,7 @@ var dependencies: [Package.Dependency] {
 
 var swiftSettings: [SwiftSetting] {
     return [
-        .enableExperimentalFeature("StrictConcurrency"),
+        .enableExperimentalFeature("StrictConcurrency")
     ]
 }
 
