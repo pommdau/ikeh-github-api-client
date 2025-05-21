@@ -18,7 +18,7 @@ let package = Package(
     products: [
         .library(
             name: "IKEHGitHubAPIClient",
-            targets: ["IKEHGitHubAPIClient"]),
+            targets: ["IKEHGitHubAPIClient"])
     ],
     dependencies: dependencies,
     targets: [
