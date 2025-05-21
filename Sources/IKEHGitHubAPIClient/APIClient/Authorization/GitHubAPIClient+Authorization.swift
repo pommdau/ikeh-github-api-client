@@ -86,7 +86,7 @@ extension GitHubAPIClient {
         let request = GitHubAPIRequest.DeleteAppAuthorization(
             accessToken: accessToken,
             clientID: clientID,
-            clientSecret: clientSecret,
+            clientSecret: clientSecret
         )
         _ = try await self.performRequest(with: request)
     }

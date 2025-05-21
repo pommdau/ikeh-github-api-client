@@ -29,13 +29,13 @@ let package = Package(
                 .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
             ],
             swiftSettings: swiftSettings,
-            plugins: swiftLintPlugins,
+            plugins: swiftLintPlugins
         ),
         .testTarget(
             name: "IKEHGitHubAPIClientTests",
             dependencies: ["IKEHGitHubAPIClient"],
             swiftSettings: swiftSettings,
-            plugins: swiftLintPlugins,
+            plugins: swiftLintPlugins
         ),
     ]
 )
@@ -48,7 +48,7 @@ var dependencies: [Package.Dependency] {
     ]
     if Environment.enableSwiftLintPlugins {
         dependencies.append(
-            .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.1.0"),
+            .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.1.0")
         )
     }
     return dependencies

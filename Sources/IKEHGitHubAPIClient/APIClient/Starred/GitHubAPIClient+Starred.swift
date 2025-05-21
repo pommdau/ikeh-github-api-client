@@ -26,7 +26,7 @@ extension GitHubAPIClient {
         sort: String? = nil,
         direction: String? = nil,
         perPage: Int? = nil,
-        page: Int? = nil,
+        page: Int? = nil
     ) async throws -> StarredReposResponse {
         let request = GitHubAPIRequest.FetchStarredRepos(
             accessToken: accessToken,
@@ -34,7 +34,7 @@ extension GitHubAPIClient {
             sort: sort,
             direction: direction,
             perPage: perPage,
-            page: page,
+            page: page
         )
         let response = try await performRequest(with: request)
         return response

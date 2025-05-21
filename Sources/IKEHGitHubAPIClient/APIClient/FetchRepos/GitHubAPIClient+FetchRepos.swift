@@ -18,7 +18,7 @@ extension GitHubAPIClient {
         sort: String? = nil,
         order: String? = nil,
         perPage: Int? = nil,
-        page: Int? = nil,
+        page: Int? = nil
     ) async throws -> SearchResponse<Repo> {
         let request = GitHubAPIRequest.SearchReposRequest(
             accessToken: accessToken,
@@ -26,7 +26,7 @@ extension GitHubAPIClient {
             sort: sort,
             order: order,
             perPage: perPage,
-            page: page,
+            page: page
         )
         let response = try await performRequest(with: request)
         return response
