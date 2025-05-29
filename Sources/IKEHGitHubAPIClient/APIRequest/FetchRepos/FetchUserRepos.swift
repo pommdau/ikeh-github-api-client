@@ -34,7 +34,7 @@ extension GitHubAPIRequest.FetchUserRepos: GitHubAPIRequestProtocol {
     }
     
     var path: String {
-        "/users/\(userName)/repos"
+        "/z/\(userName)/repos"
     }
     
     var queryItems: [URLQueryItem] {

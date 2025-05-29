@@ -31,6 +31,48 @@ extension GitHubAPIClient {
         let response = try await performRequest(with: request)
         return response
     }
+        
+    /// 認証中のユーザのリポジトリ一覧を取得
+    /// - Parameters:
+    ///   - accessToken: アクセストークン（必須）
+    ///   - visibility: リポジトリの可視性。 "all"（デフォルト）, "public", "private" から選択
+    ///   - affiliation: 所有・コラボレーター・組織メンバーなどの所属。カンマ区切りで "owner", "collaborator", "organization_member" を指定（デフォルト: 全て）
+    ///   - type: リポジトリの種類。 "all"（デフォルト）, "owner", "public", "private", "member" から選択
+    ///   - sort: ソート基準。 "created", "updated", "pushed", "full_name"（デフォルト）から選択
+    ///   - direction: ソート順。 "asc"（full_name時のデフォルト）, "desc"（デフォルト）から選択
+    ///   - perPage: 1ページあたりの最大件数（デフォルト: 30, 最大: 100）
+    ///   - page: ページ番号（デフォルト: 1）
+    ///   - since: 指定した日時以降に作成されたリポジトリのみ取得（例: "2023-01-01T00:00:00Z"）
+    ///   - before: 指定した日時以前に作成されたリポジトリのみ取得（例: "2023-01-01T00:00:00Z"）
+    /// - Returns: 認証中ユーザのリポジトリ一覧
+    /// - SeeAlso: [GitHub Docs – List repositories for the authenticated user](https://docs.github.com/ja/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-the-authenticated-user)
+    public func fetchAuthenticatedUserRepos(
+        accessToken: String,
+        visibility: String? = nil,
+        affiliation: String? = nil,
+        type: String? = nil,
+        sort: String? = nil,
+        direction: String? = nil,
+        perPage: Int? = nil,
+        page: Int? = nil,
+        since: String? = nil,
+        before: String? = nil
+    ) async throws -> ListResponse<Repo> {
+        let request = GitHubAPIRequest.FetchAuthenticatedUserRepos(
+            accessToken: accessToken,
+            visibility: visibility,
+            affiliation: affiliation,
+            type: type,
+            sort: sort,
+            direction: direction,
+            perPage: perPage,
+            page: page,
+            since: since,
+            before: before
+        )
+        let response = try await performRequest(with: request)
+        return response
+    }
        
     /// 特定ユーザのパブリックリポジトリの一覧の取得
     /// - Parameters:

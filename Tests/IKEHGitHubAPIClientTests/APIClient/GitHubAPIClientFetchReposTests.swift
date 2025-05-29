@@ -70,6 +70,48 @@ extension GitHubAPIClientFetchReposTests {
     }
 }
 
+// MARK: - 認証中のユーザのリポジトリ一覧取得のテスト
+
+extension GitHubAPIClientFetchReposTests {
+    
+    /// 認証中のユーザのリポジトリ一覧取得: 成功
+    func testFetchAuthenticatedUserReposSuccess() async throws {
+        // MARK: Given
+        let testRepos = Repo.Mock.random(count: 10)
+        let testResponse: ListResponse<Repo> = .init(items: testRepos)
+        let urlSessionStub: URLSessionStub = .init(
+            data: try JSONEncoder().encode(testResponse),
+            response: .init(status: .ok))
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        let response = try await sut.fetchAuthenticatedUserRepos(accessToken: "accessToken")
+        
+        // MARK: Then
+        XCTAssertEqual(response.items, testRepos)
+    }
+
+    /// 特定ユーザのリポジトリ一覧取得: 失敗(APIエラー)
+    func testFetchAuthenticatedUserReposFailedByAPIError() async throws {
+        // MARK: Given
+        let urlSessionStub = try URLSessionStub.create(with: GitHubAPIError.Mock.badCredentials)
+        sut = try .create(urlSession: urlSessionStub)
+        
+        // MARK: When
+        do {
+            _ = try await sut.fetchAuthenticatedUserRepos(accessToken: "accessToken")
+            XCTFail("期待するエラーが検出されませんでした")
+        } catch {
+            // MARK: Then
+            guard let clientError = error as? GitHubAPIClientError else {
+                XCTFail("期待するエラーが検出されませんでした: \(error)")
+                return
+            }
+            XCTAssertTrue(clientError.isAPIError, "期待するエラーが検出されませんでした: \(error)")
+        }
+    }
+}
+
 // MARK: - 特定ユーザのリポジトリ一覧取得のテスト
 
 extension GitHubAPIClientFetchReposTests {
