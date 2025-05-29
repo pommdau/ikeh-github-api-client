@@ -9,6 +9,7 @@ public struct Repo: GitHubItem {
         case id
         case name
         case fullName = "full_name"
+        case isPrivate = "private"
         case owner
         case starsCount = "stargazers_count"
         case watchersCount = "watchers_count"
@@ -20,11 +21,13 @@ public struct Repo: GitHubItem {
         case description
         case createdAt = "created_at"
         case updatedAt = "updated_at"
+        case pushedAt = "pushed_at"
     }
     
     public let id: Int
     public var name: String  // e.g. "Tetris"
     public var fullName: String  // e.g. "dtrupenn/Tetris"
+    public var isPrivate: Bool // プライベートリポジトリかどうか
     public var owner: User
     public var starsCount: Int
     public var watchersCount: Int
@@ -34,8 +37,9 @@ public struct Repo: GitHubItem {
     public var htmlPath: String  // リポジトリのURL
     public var websitePath: String?  // 設定したホームページ
     public var description: String?
-    public var createdAt: String // e.g. "2015-10-23T21:15:07Z",
-    public var updatedAt: String // e.g. "2025-02-02T06:17:34Z",
+    public var createdAt: String // e.g. "2015-10-23T21:15:07Z"
+    public var updatedAt: String // e.g. "2025-02-02T06:17:34Z"
+    public var pushedAt: String // e.g. "2025-03-28T04:22:29Z"
             
     // MARK: - Computed Property
     
@@ -57,6 +61,7 @@ public struct Repo: GitHubItem {
         id: Int,
         name: String,
         fullName: String,
+        isPrivate: Bool = false,
         owner: User,
         starsCount: Int,
         watchersCount: Int,
@@ -67,11 +72,13 @@ public struct Repo: GitHubItem {
         websitePath: String? = nil,
         description: String? = nil,
         createdAt: String,
-        updatedAt: String
+        updatedAt: String,
+        pushedAt: String
     ) {
         self.id = id
         self.name = name
         self.fullName = fullName
+        self.isPrivate = isPrivate
         self.owner = owner
         self.starsCount = starsCount
         self.watchersCount = watchersCount
@@ -83,6 +90,7 @@ public struct Repo: GitHubItem {
         self.description = description
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.pushedAt = pushedAt
     }
     // swiftlint:enable function_default_parameter_at_end
 }
@@ -123,6 +131,7 @@ extension Repo {
                 id: randomID,
                 name: randomName,
                 fullName: "\(randomOwner.login)/\(randomName)",
+                isPrivate: Bool.random(),
                 owner: randomOwner,
                 starsCount: Int.random(in: 0...10000),
                 watchersCount: Int.random(in: 0...5000),
@@ -133,7 +142,8 @@ extension Repo {
                 websitePath: Bool.random() ? "https://\(randomName.lowercased()).com" : nil,
                 description: "This is a random repository.",
                 createdAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
-                updatedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10))
+                updatedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10)),
+                pushedAt: ISO8601DateFormatter.shared.string(from: Date.random(inPastYears: 10))
             )
         }
     }

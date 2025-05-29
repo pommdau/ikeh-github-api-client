@@ -284,7 +284,7 @@ extension SearchReposView {
                     userName: starredReposText,
                     accessToken: tokenStore.accessToken,
                     perPage: Int(perPage),
-                    page: Int(page),
+                    page: Int(page)
                 )
                                                 
                 starredRepos += response.starredRepos
