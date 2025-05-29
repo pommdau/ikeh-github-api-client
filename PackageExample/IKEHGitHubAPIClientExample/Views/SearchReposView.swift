@@ -21,6 +21,10 @@ struct SearchReposView: View {
     private var searchReposText = "SwiftUI"
     @State private var searchReposNextLink: RelationLink.Link?
     
+    // MARK: 認証中のユーザのリポジトリの取得
+    @State private var authenticatedUserRepos: [IKEHGitHubAPIClient.Repo] = []
+    @State private var authenticatedUserReposNextLink: RelationLink.Link?
+    
     // MARK: ユーザのリポジトリの取得
     @State private var userRepos: [IKEHGitHubAPIClient.Repo] = []
     @AppStorage("userReposText")
@@ -36,6 +40,7 @@ struct SearchReposView: View {
     var body: some View {
         Form {
             searchReposSection()
+            authenticatedUserReposSection()
             userReposSection()
             starredReposSection()
         }
@@ -122,6 +127,90 @@ extension SearchReposView {
         }
         .frame(maxWidth: .infinity, alignment: .trailing)
         .disabled(searchReposNextLink == nil)
+        .padding(.top, 4)
+    }
+}
+
+// MARK: - 認証済みユーザのリポジトリの取得
+
+extension SearchReposView {
+    
+    @ViewBuilder
+    private func authenticatedUserReposSection() -> some View {
+        Section("Login User Repos") {
+            fetchAuthenticatedUserReposButton()
+            fetchAuthenticatedUserReposLabel()
+            fetchAuthenticatedUserReposMoreButton()
+        }
+    }
+    
+    @ViewBuilder
+    private func fetchAuthenticatedUserReposButton() -> some View {
+        HStack {
+            TextField("User", text: $userReposText)
+            Button("Fetch") {
+                Task {
+                    do {
+                        let response = try await gitHubAPIClient.fetchAuthenticatedUserRepos(
+                            accessToken: tokenStore.accessToken,
+                            sort: "pushed",
+                            perPage: 10
+                        )
+                        authenticatedUserRepos = response.items
+                        authenticatedUserReposNextLink = response.relationLink?.next
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
+        
+    @ViewBuilder
+    private func fetchAuthenticatedUserReposLabel() -> some View {
+        VStack(alignment: .leading) {
+            Text("Result")
+                .font(.headline)
+            
+            Group {
+                if authenticatedUserRepos.isEmpty {
+                    Text("(Empty)")
+                } else {
+                    ForEach(authenticatedUserRepos) { repo in
+                        Text(repo.fullName)
+                            .lineLimit(1)
+                    }
+                }
+            }
+            .minimumScaleFactor(0.1)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+    }
+    
+    @ViewBuilder
+    private func fetchAuthenticatedUserReposMoreButton() -> some View {
+        Button("More") {
+            Task {
+                guard
+                    let nextLink = authenticatedUserReposNextLink,
+                    let page = nextLink.queryItems["page"],
+                    let perPage = nextLink.queryItems["per_page"]
+                else {
+                    return
+                }
+                let response = try await gitHubAPIClient.fetchAuthenticatedUserRepos(
+                    accessToken: tokenStore.accessToken,
+                    sort: "pushed",
+                    perPage: Int(perPage),
+                    page: Int(page)
+                )
+                authenticatedUserRepos += response.items
+                authenticatedUserReposNextLink = response.relationLink?.next
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .trailing)
+        .disabled(authenticatedUserReposNextLink == nil)
         .padding(.top, 4)
     }
 }
