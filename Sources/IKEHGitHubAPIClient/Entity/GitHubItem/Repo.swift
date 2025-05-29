@@ -61,7 +61,7 @@ public struct Repo: GitHubItem {
         id: Int,
         name: String,
         fullName: String,
-        isPrivate: Bool = false,
+        isPrivate: Bool,
         owner: User,
         starsCount: Int,
         watchersCount: Int,
