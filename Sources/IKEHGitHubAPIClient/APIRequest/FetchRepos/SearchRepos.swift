@@ -9,9 +9,18 @@ import Foundation
 import HTTPTypes
 
 extension GitHubAPIRequest {
+
     /// リポジトリの検索リクエスト
-    /// - SeeAlso: [GitHub Docs](https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-repositories)
-    struct SearchReposRequest {
+    /// - Parameters:
+    ///   - accessToken: アクセストークン
+    ///   - query: 検索語句
+    ///   - sort: ソート基準  "stars", "forks", "help-wanted-issues", "updated"（デフォルトは"best match"）
+    ///   - order: ソート順 "desc", "asc"（デフォルトは"desc"）
+    ///   - perPage: 1ページあたりの最大件数（デフォルトは30、最大は100）
+    ///   - page: 検索ページ番号（デフォルトは1）
+    ///   - Returns: 該当するリポジトリの一覧
+    /// - SeeAlso: [GitHub Docs > Search repositories](https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-repositories)
+    struct SearchRepos {
         var accessToken: String?
         var query: String
         var sort: String?
@@ -21,7 +30,7 @@ extension GitHubAPIRequest {
     }
 }
 
-extension GitHubAPIRequest.SearchReposRequest: GitHubAPIRequestProtocol {
+extension GitHubAPIRequest.SearchRepos: GitHubAPIRequestProtocol {
 
     typealias Response = SearchResponse<Repo>
     

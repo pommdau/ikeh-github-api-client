@@ -20,7 +20,7 @@ extension GitHubAPIClient {
         perPage: Int? = nil,
         page: Int? = nil
     ) async throws -> SearchResponse<Repo> {
-        let request = GitHubAPIRequest.SearchReposRequest(
+        let request = GitHubAPIRequest.SearchRepos(
             accessToken: accessToken,
             query: query,
             sort: sort,

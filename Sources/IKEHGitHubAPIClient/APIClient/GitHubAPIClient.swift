@@ -38,6 +38,7 @@ public final actor GitHubAPIClient {
         self.urlSession = URLSession.shared
     }
     
+    /// ユニットテスト用のinitializer
     init(clientID: String, clientSecret: String, callbackURL: URL, scope: String? = nil, urlSession: URLSessionProtocol = URLSession.shared) {
         self.clientID = clientID
         self.clientSecret = clientSecret
