@@ -4,7 +4,7 @@ import FoundationNetworking
 #endif
 
 /// GitHubAPIのクライアント
-public final actor GitHubAPIClient {
+public final actor GitHubAPIClient: GitHubAPIClientProtocol {
     
     // MARK: - Property
     

@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - GitHubAPIClientFetchUserProtocol
+
 extension GitHubAPIClient {
         
     /// 認証中のユーザを取得

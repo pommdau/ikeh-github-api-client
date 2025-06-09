@@ -6,7 +6,7 @@ import UIKit
 import AppKit
 #endif
 
-// MARK: - ログイン
+// MARK: - GitHubAPIClientAuthorizationProtocol
 
 extension GitHubAPIClient {
         

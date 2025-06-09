@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - GitHubAPIClientFetchReposProtocol
+
 extension GitHubAPIClient {
     
     /// リポジトリの検索
