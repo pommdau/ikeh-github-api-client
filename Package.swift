@@ -76,7 +76,6 @@ enum Environment {
         return ProcessInfo.processInfo.environment[key]
     }
     static var enableSwiftLintPlugins: Bool {
-//        return true
         Self.get("ENABLE_SWIFTLINT_PLUGINS") == "true"
     }
 }

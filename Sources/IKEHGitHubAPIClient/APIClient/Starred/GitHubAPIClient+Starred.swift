@@ -8,6 +8,8 @@
 import Foundation
 import HTTPTypes
 
+// MARK: - GitHubAPIClientStarredProtocol
+
 extension GitHubAPIClient {
     
     /// ユーザのスターしたリポジトリの一覧の取得

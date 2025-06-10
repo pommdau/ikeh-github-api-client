@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - GitHubAPIClientFetchReposProtocol
+
 extension GitHubAPIClient {
     
     /// リポジトリの検索
@@ -20,7 +22,7 @@ extension GitHubAPIClient {
         perPage: Int? = nil,
         page: Int? = nil
     ) async throws -> SearchResponse<Repo> {
-        let request = GitHubAPIRequest.SearchReposRequest(
+        let request = GitHubAPIRequest.SearchRepos(
             accessToken: accessToken,
             query: query,
             sort: sort,

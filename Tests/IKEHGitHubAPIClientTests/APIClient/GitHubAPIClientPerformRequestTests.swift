@@ -200,7 +200,7 @@ extension GitHubAPIClientPerformRequestTests {
         
         // テスト用のレスポンスBodyの作成
         let testRepos: [Repo] = Repo.Mock.random(count: 10)
-        let testResponse: GitHubAPIRequest.SearchReposRequest.Response = .init(totalCount: testRepos.count, items: testRepos)
+        let testResponse: GitHubAPIRequest.SearchRepos.Response = .init(totalCount: testRepos.count, items: testRepos)
         
         // テスト用のレスポンスHeaderの作成
         var testHeaderFields = HTTPFields()
@@ -232,7 +232,7 @@ extension GitHubAPIClientPerformRequestTests {
         // MARK: Given
         
         let testRepos: [Repo] = Repo.Mock.random(count: 10)
-        let testResponse: GitHubAPIRequest.SearchReposRequest.Response = .init(totalCount: testRepos.count, items: testRepos)
+        let testResponse: GitHubAPIRequest.SearchRepos.Response = .init(totalCount: testRepos.count, items: testRepos)
         let testHTTPResponse: HTTPResponse = .init(
             status: .ok,
             headerFields: .init()
